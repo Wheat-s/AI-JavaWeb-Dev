@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表单标签</title>
+</head>
+<body>
+  <!-- formb表单
+   action属性： 表单数据提交地址
+   method属性： 表单数据提交方式
+    get： 默认， 表单数会出现在url后面， 形式：/save?name=tom&age=12
+      特点：
+        1. 如果表单中包含了隐私数据，get方式不安全，不推荐使用
+        2. 在浏览器中get请求的大小有限制，不能超过1024个字符，不适合传输大量数据
+    post： 表单数据会在消息体/请求体中提交到服务器。
+      特点：
+        1. 安全，   post方式没有大小限制，适合传输大量数据
+        2. 请求大小没有限制。   post方式相对安全一些，隐私数据不容易被泄露
+    注意：表单项要想能够采集数据，必须设置name属性, 表示当前表单项的名字。
+   -->
+  <form action="/save" method="post">
+    姓名：<input type="text" name="name"></input>
+    年龄：<input type="text" name="age"></input>
+    <input type="submit" value="提交"></input>
+  </form>
+</body>
+</html>
