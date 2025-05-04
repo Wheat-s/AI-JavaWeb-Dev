@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Tlias智能学习辅助系统</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; /* 设置全局字体 */
+      margin: 0; /* 去除默认外边距 */
+      padding: 0; /* 去除默认内边距 */
+      /* background-color: #f4f4f4; 设置背景颜色为浅灰色 */
+    }
+    /* ---------顶部导航栏样式--------- */
+    .navbar {
+      background-color: #959090; /* 设置背景颜色为浅灰色 */
+      padding: 15px 20px; /* 设置上下内边距为15px，左右为20px */
+      display: flex; /* flex弹性布局 */
+      justify-content: space-between; /* 子元素两端对齐，标题在左，链接在右 */
+      align-items: center; /* 垂直方向居中对齐 */
+    }
+
+    .navbar .title {
+      font-size: 24px; /* 设置字体大小为24像素 */
+      font-weight: bold; /* 设置字体加粗 */
+      margin: 0; /* 去除默认的外边距 */
+      color: white; /* 设置字体颜色为白色 */
+      /* 设置楷体字体 */
+      font-family: "楷体"; /* 设置字体为楷体 */
+    }
+
+    .navbar a.logout {
+      text-decoration: none; /* 去除链接下划线 */
+      color: #333; /* 设置字体颜色为深灰色 */
+      font-size: 16px; /* 设置字体大小为16像素 */
+    }
+
+    .navbar a.logout:hover {
+      color: #007BFF; /* 悬停时字体颜色变为蓝色 */
+    }
+
+    /* ---------搜索表单区域样式--------- */
+    .search-form {                     /* 搜索区域容器 */
+    background-color: #f2f2f2;      /* 浅灰背景 */
+    padding: 10px 20px;             /* 上下左右内边距 */
+    margin: 20px 0px;               /* 顶部留白 */
+  }
+
+  .search-form form {               /* 表单本身 */
+    display: flex;                 /* 启用弹性布局 */
+    align-items: center;           /* 垂直居中 */
+    gap: 10px;                     /* 控件间距 */
+    flex-wrap: wrap;               /* 小屏时允许换行 */
+  }
+
+  .search-form label {              /* 标签文字 */
+    font-weight: bold;             /* 加粗字体 */
+  }
+
+  .search-form input,
+  .search-form select {
+    width: 200px;                /* 控件宽度 */
+    padding: 5px 10px;             /* 控件内边距 */
+    font-size: 14px;               /* 字体大小 */
+    border-radius: 4px;            /* 圆角边框 */
+    border: 1px solid #ccc;        /* 灰色边框 */
+  }
+
+  .search-form button {
+    padding: 5px 10px;             /* 控件内边距 */
+    font-size: 14px;              /* 字体大小 */ 
+    border-radius: 4px;            /* 圆角边框 */
+    border: 1px solid #ccc;        /* 灰色边框 */
+    cursor: pointer;               /* 鼠标悬浮变为手型 */
+    background-color: #4CAF50;     /* 按钮背景绿色 */
+    color: white;                  /* 字体白色 */
+    border: none;                  /* 去掉边框 */
+  }
+
+  .search-form button[type="reset"] {
+    background-color: #f44336;     /* 清空按钮红色 */
+  }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部导航栏 -->
+  <div class="navbar">
+    <h1 class="title">Tlias智能学习辅助系统</h1>
+    <a href="#" class="logout">退出登录</a>
+  </div>
+
+  <!-- 搜索表单区域 -->
+<div class="search-form">
+  <form action="/search" method="get">
+    <!-- 姓名输入框 -->
+    <label for="name">姓名：</label>
+    <input type="text" id="name" name="name" placeholder="请输入姓名">
+
+    <!-- 性别下拉框 -->
+    <label for="gender">性别：</label>
+    <select id="gender" name="gender">
+      <option value="">请选择</option> <!-- 默认空 -->
+      <option value="1">男</option>
+      <option value="2">女</option>
+    </select>
+
+    <!-- 职位下拉框 -->
+    <label for="position">职位：</label>
+    <select id="position" name="position">
+      <option value="">请选择</option> <!-- 默认空 -->
+      <option value="1">班主任</option>
+      <option value="2">讲师</option>
+      <option value="3">学工主管</option>
+      <option value="4">教研主管</option>
+      <option value="5">咨询师</option>
+    </select>
+
+    <!-- 查询与清空按钮 -->
+    <button type="submit">查询</button>
+    <button type="reset">清空</button>
+  </form>
+</div>
+</body>
+</html>

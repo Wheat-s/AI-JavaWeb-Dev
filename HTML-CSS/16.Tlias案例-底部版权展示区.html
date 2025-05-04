@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tlias智能学习辅助系统</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif; /* 设置全局字体 */
+        margin: 0; /* 去除默认外边距 */
+        padding: 0; /* 去除默认内边距 */
+        /* background-color: #f4f4f4; 设置背景颜色为浅灰色 */
+      }
+      /* ---------顶部导航栏样式--------- */
+      .navbar {
+        background-color: #666; /* 设置背景颜色为浅灰色 */
+        padding: 15px 20px; /* 设置上下内边距为15px，左右为20px */
+        display: flex; /* flex弹性布局 */
+        justify-content: space-between; /* 子元素两端对齐，标题在左，链接在右 */
+        align-items: center; /* 垂直方向居中对齐 */
+      }
+
+      .navbar .title {
+        font-size: 24px; /* 设置字体大小为24像素 */
+        font-weight: bold; /* 设置字体加粗 */
+        margin: 0; /* 去除默认的外边距 */
+        color: white; /* 设置字体颜色为白色 */
+        /* 设置楷体字体 */
+        font-family: "楷体"; /* 设置字体为楷体 */
+      }
+
+      .navbar a.logout {
+        text-decoration: none; /* 去除链接下划线 */
+        color: #333; /* 设置字体颜色为深灰色 */
+        font-size: 16px; /* 设置字体大小为16像素 */
+      }
+
+      .navbar a.logout:hover {
+        color: #007bff; /* 悬停时字体颜色变为蓝色 */
+      }
+
+      /* ---------搜索表单区域样式--------- */
+      .search-form {
+        /* 搜索区域容器 */
+        background-color: #f2f2f2; /* 浅灰背景 */
+        padding: 10px 20px; /* 上下左右内边距 */
+        margin: 25px 0px; /* 顶部留白 */
+      }
+
+      .search-form form {
+        /* 表单本身 */
+        display: flex; /* 启用弹性布局 */
+        align-items: center; /* 垂直居中 */
+        gap: 10px; /* 控件间距 */
+        flex-wrap: wrap; /* 小屏时允许换行 */
+      }
+
+      .search-form label {
+        /* 标签文字 */
+        font-weight: bold; /* 加粗字体 */
+      }
+
+      .search-form input,
+      .search-form select {
+        width: 260px; /* 控件宽度 */
+        padding: 5px 10px; /* 控件内边距 */
+        font-size: 14px; /* 字体大小 */
+        border-radius: 4px; /* 圆角边框 */
+        border: 1px solid #ccc; /* 灰色边框 */
+      }
+
+      .search-form button {
+        padding: 5px 10px; /* 控件内边距 */
+        font-size: 14px; /* 字体大小 */
+        border-radius: 4px; /* 圆角边框 */
+        border: 1px solid #ccc; /* 灰色边框 */
+        cursor: pointer; /* 鼠标悬浮变为手型 */
+        background-color: #4caf50; /* 按钮背景绿色 */
+        color: white; /* 字体白色 */
+        border: none; /* 去掉边框 */
+      }
+
+      .search-form button[type="reset"] {
+        background-color: #f44336; /* 清空按钮红色 */
+      }
+
+      /* ---------表格展示区域样式--------- */
+      .table-section {
+        /* 表格区域容器 */
+        padding: 0px; /* 内边距 */
+        background-color: #fff; /* 背景白色 */
+        margin: 20px 0px; /* 顶部间距 */
+      }
+
+      table {
+        width: 100%; /* 表格宽度撑满 */
+        border-collapse: collapse; /* 合并边框 */
+        font-size: 14px; /* 字体大小 */
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd; /* 单元格边框 */
+        padding: 8px; /* 单元格内边距 */
+        text-align: center; /* 文本居中 */
+      }
+
+      th {
+        background-color: #92cef4; /* 表头背景 */
+        font-weight: bold; /* 表头加粗 */
+      }
+
+      /* 表格奇数行背景色 -- 斑马纹效果 */
+      tr:nth-child(even) {
+        background-color: #f9f9f9; /* 行背景色 */
+      }
+      /* 鼠标悬停时高亮整行 */
+      tr:hover {
+        background-color: #f1f1f1; /* 鼠标悬停行背景色 */
+      }
+
+      .awatar {
+        /* 头像样式 */
+        width: 50px; /* 头像大小 */
+        height: 50px;
+        border-radius: 50%; /* 圆形头像 */
+      }
+
+      /* ---------表格操作按钮样式--------- */
+      .edit-btn,
+      .delete-btn {
+        padding: 5px 10px; /* 按钮内边距 */
+        border: none; /* 去掉边框 */
+        border-radius: 4px; /* 按钮圆角 */
+        color: white; /* 字体白色 */
+        cursor: pointer; /* 鼠标变手 */
+        margin: 0 2px; /* 按钮间隔 */
+        font-size: 13px; /* 字体稍小 */
+      }
+
+      .edit-btn {
+        background-color: #2196f3; /* 编辑按钮蓝色 */
+      }
+
+      .delete-btn {
+        background-color: #f44336; /* 删除按钮红色 */
+      }
+
+      .edit-btn:hover {
+        background-color: #1976d2; /* 编辑按钮悬浮色 */
+      }
+
+      .delete-btn:hover {
+        background-color: #d32f2f; /* 删除按钮悬浮色 */
+      }
+      /* ---------页脚版权区域样式--------- */
+      .footer {
+        background-color: #666; /* 灰色背景 */
+        color: #fff; /* 白色字体 */
+        text-align: center; /* 居中对齐 */
+        padding: 10px 0px; /* 上下内边距 */
+        font-size: 14px; /* 字体大小 */
+        line-height: 1.6; /* 行间距 */
+      }
+
+      #main-container {
+        width: 80%; /* 最大宽度 */
+        margin: 0 auto; /* 水平居中 */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- --------------顶部导航栏-------------- -->
+    <div class="navbar">
+      <h1 class="title">Tlias智能学习辅助系统</h1>
+      <a href="#" class="logout">退出登录</a>
+    </div>
+
+    <div id="main-container">
+      <!-- --------------搜索表单区域-------------- -->
+      <div class="search-form">
+        <form action="/search" method="get">
+          <!-- 姓名输入框 -->
+          <label for="name">姓名：</label>
+          <input type="text" id="name" name="name" placeholder="请输入姓名" />
+
+          <!-- 性别下拉框 -->
+          <label for="gender">性别：</label>
+          <select id="gender" name="gender">
+            <option value="">请选择</option>
+            <!-- 默认空 -->
+            <option value="1">男</option>
+            <option value="2">女</option>
+          </select>
+
+          <!-- 职位下拉框 -->
+          <label for="position">职位：</label>
+          <select id="position" name="position">
+            <option value="">请选择</option>
+            <!-- 默认空 -->
+            <option value="1">班主任</option>
+            <option value="2">讲师</option>
+            <option value="3">学工主管</option>
+            <option value="4">教研主管</option>
+            <option value="5">咨询师</option>
+          </select>
+
+          <!-- 查询与清空按钮 -->
+          <button type="submit">查询</button>
+          <button type="reset">清空</button>
+        </form>
+      </div>
+      <!-- --------------表格展示区-------------- -->
+      <div class="table-section">
+        <table>
+          <thead>
+            <!-- 表头 -->
+            <tr>
+              <!-- 表头行 -->
+              <th>姓名</th>
+              <th>性别</th>
+              <th>头像</th>
+              <th>职位</th>
+              <th>入职日期</th>
+              <th>最后操作时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 表格主体 -->
+            <tr>
+              <!-- 表格行 -->
+              <td>令狐冲</td>
+              <td>男</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                />
+              </td>
+              <td>讲师</td>
+              <td>2021-05-01</td>
+              <td>2023-09-20 14:22</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>任盈盈</td>
+              <td>女</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                />
+              </td>
+              <td>咨询师</td>
+              <td>2022-01-12</td>
+              <td>2024-03-02 10:15</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>岳不群</td>
+              <td>男</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                />
+              </td>
+              <td>教研主管</td>
+              <td>2019-11-08</td>
+              <td>2025-01-18 17:45</td>
+              <td class="action-buttons">
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr></tr>
+            <tr>
+              <td>林平之</td>
+              <td>男</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>讲师</td>
+              <td>2023-03-15</td>
+              <td>2025-04-21 09:10</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>宁中则</td>
+              <td>女</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>主任</td>
+              <td>2018-07-09</td>
+              <td>2024-08-03 11:34</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>左冷禅</td>
+              <td>男</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>咨询师</td>
+              <td>2020-10-20</td>
+              <td>2023-12-10 15:25</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>仪琳</td>
+              <td>女</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>讲师</td>
+              <td>2022-04-03</td>
+              <td>2025-02-27 13:05</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>田伯光</td>
+              <td>男</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>学工主管</td>
+              <td>2017-11-30</td>
+              <td>2023-05-18 08:59</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>方证大师</td>
+              <td>男</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>教研主管</td>
+              <td>2016-02-01</td>
+              <td>2022-10-11 16:20</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+            <tr>
+              <td>岳灵珊</td>
+              <td>女</td>
+              <td>
+                <img
+                  class="awatar"
+                  src="https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg"
+                  alt="头像"
+                  width="40"
+                />
+              </td>
+              <td>主任</td>
+              <td>2023-01-25</td>
+              <td>2025-03-14 18:40</td>
+              <td>
+                <button class="edit-btn">编辑</button>
+                <button class="delete-btn">删除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- --------------页脚版权展示区-------------- -->
+    <footer class="footer">
+      <p>独立学习DEMO有限公司</p>
+      <p>版权所有 Copyright 2006-2025 All Rights Reserved</p>
+    </footer>
+  </body>
+</html>
