@@ -183,25 +183,33 @@
     <div id="main-container">
       <!-- --------------搜索表单区域-------------- -->
       <div class="search-form">
-        <form action="/search" method="get">
+        <!-- 测试数据 -->
+        {{ searchForm}}   
+        <form>
           <!-- 姓名输入框 -->
           <label for="name">姓名：</label>
-          <input type="text" id="name" name="name" placeholder="请输入姓名" />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            v-model="searchForm.name"
+            placeholder="请输入姓名"
+          />
 
           <!-- 性别下拉框 -->
           <label for="gender">性别：</label>
-          <select id="gender" name="gender">
-            <option value="">请选择</option>
+          <select id="gender" name="gender" v-model="searchForm.gender">
             <!-- 默认空 -->
+            <option value="">请选择</option>
             <option value="1">男</option>
             <option value="2">女</option>
           </select>
 
           <!-- 职位下拉框 -->
           <label for="position">职位：</label>
-          <select id="position" name="position">
-            <option value="">请选择</option>
+          <select id="position" name="position" v-model="searchForm.job">
             <!-- 默认空 -->
+            <option value="">请选择</option>
             <option value="1">班主任</option>
             <option value="2">讲师</option>
             <option value="3">学工主管</option>
@@ -210,8 +218,8 @@
           </select>
 
           <!-- 查询与清空按钮 -->
-          <button type="submit">查询</button>
-          <button type="reset">清空</button>
+          <button type="button" v-on:click="search">查询</button>
+          <button type="button" @click="clear" >清空</button>
         </form>
       </div>
       <!-- --------------表格展示区-------------- -->
@@ -221,7 +229,7 @@
             <!-- 表头 -->
             <tr>
               <!-- 表头行 -->
-              <th>编号</th>
+              <th>序号</th>
               <th>姓名</th>
               <th>性别</th>
               <th>头像</th>
@@ -239,8 +247,25 @@
               <td>{{e.name}}</td>
               <td>{{e.gender == 1 ? '男' : '女'}}</td>
               <!-- 插值表达式是不能出现在标签内部的 -->
-              <td><img class="avatar" src="{{e.image}}" alt="{{e.name}}"></td>
-              <td>{{e.job}}</td>
+              <td><img class="avatar" v-bind:src="e.image" :alt="e.name" /></td>
+              <!-- v-if: 条件不成立，直接不渲染这个元素（不频繁切换的场景） -->
+              <td>
+                <span v-if="e.job == 1">班主任</span>
+                <span v-else-if="e.job == 2">讲师</span>
+                <span v-else-if="e.job == 3">学工主管</span>
+                <span v-else-if="e.job == 4">教研主管</span>
+                <span v-else-if="e.job == 5">咨询师</span>
+                <span v-else>其他</span>
+              </td>
+
+              <!-- v-show: 通过css样式，来控制元素的展示与隐藏（频繁切换的场景） -->
+              <!-- <td>
+                <span v-show="e.job == 1">班主任</span>
+                <span v-show="e.job == 2">讲师</span>
+                <span v-show="e.job == 3">学工主管</span>
+                <span v-show="e.job == 4">教研主管</span>
+                <span v-show="e.job == 5">咨询师</span>
+              </td> -->
               <td>{{e.entrydate}}</td>
               <td>{{e.updatetime}}</td>
               <td>
@@ -252,7 +277,6 @@
         </table>
       </div>
     </div>
-
     <!-- --------------页脚版权展示区-------------- -->
     <footer class="footer">
       <p>独立学习DEMO有限公司</p>
@@ -260,10 +284,17 @@
     </footer>
 
     <script type="module">
-      import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+      import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
       createApp({
         data() {
           return {
+            // 定义数据模型，采集员工搜索表单数据
+            searchForm: {
+              // 封装用户类型
+              name: "",
+              gender: "",
+              job: "",
+            },
             empList: [
               {
                 id: 1,
@@ -297,6 +328,21 @@
               },
             ],
           };
+        },
+        // 方法
+        methods: {
+          // 将搜索条件，输出到控制台
+          search() {
+            console.log(this.searchForm);
+          },
+          clear() {
+            // 清空表单项数据
+            this.searchForm = {
+              name: "",
+              gender: "",
+              job: "",
+            }
+          }
         },
       }).mount("#main-container");
       // 通过JS为上述的表格中数据行添加事件监听，实现鼠标进入后，背景色#f2e2e2; 鼠标离开后，背景色需要设置为#fff;(JS新版本的语法)
