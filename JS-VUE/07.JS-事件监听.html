@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS - 事件监听</title>
+</head>
+<body>
+  <input type="button" value="点击我1" id="btn1" />
+  <input type="button" value="点击我2" id="btn2" />
+
+
+  <script>
+    // 事件监听
+    // 1. 获取DOM对象 - addEventListener (可以绑定同一事件或多个事件)
+    document.querySelector('#btn1').addEventListener('click', () =>  {
+     console.log('点击了按钮1');
+    })
+
+    document.querySelector('#btn1').addEventListener('click', () =>  {
+     console.log('点击了按钮11');
+    })
+
+    // 2. 事件绑定 - 早起写法 - onclick （如果绑定了多个事件，只有最后一个生效）
+    document.querySelector('#btn2').onclick = () => {
+      console.log('点击了按钮2');
+    }
+    document.querySelector('#btn2').onclick = () => {
+      console.log('点击了按钮22');
+    }
+  </script>
+</body>
+</html>

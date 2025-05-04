@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS - 自定义对象</title>
+</head>
+<body>
+  
+
+  <script>
+    // 1. 定义对象
+    // let user = {
+    //   name: 'tom',
+    //   age: 18,
+    //   gender: '男',
+    //   sing: function() {
+    //     alert(this.name + '悠悠的唱着最炫的名族风～')
+    //   }
+    // }
+
+    let user = {
+      name: 'tom',
+      age: 18,
+      gender: '男',
+      sing() {
+        alert(this.name + '悠悠的唱着最炫的名族风～')
+      }
+    }
+
+    // let user = {
+    //   name: 'tom',
+    //   age: 18,
+    //   gender: '男',
+    //   sing:() => { // 注意：在箭头函数中，this并不指向当前对象，而是指向当前对象的父级
+    //     alert(this + '悠悠的唱着最炫的名族风～')
+    //   }
+    // }
+
+    // 2. 调用对象属性/方法
+    // alert(user.name);
+    // user.sing();
+
+    // 3. JSON -JS对象标记法
+     let person = {
+      name: 'tom',
+      age: 18,
+     }
+     console.log(JSON.stringify(person)); // {"name":"tom","age":18}
+     console.log('-----------------');
+     
+     
+     let personJson = '{"name":"tom","age":18}';
+      console.log(JSON.parse(personJson).age); // {name: "tom", age: 18}
+  </script>
+</body>
+</html>

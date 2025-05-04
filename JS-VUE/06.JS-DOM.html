@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS - DOM</title>
+</head>
+<body>
+  <h1 id="title1">111111</h1>
+  <h1>222222</h1>
+  <h1>333333</h1>
+
+  <script>
+    // 1. 修改第一个h1元素的内容
+    // 1.1 获取DOM对象
+    // let h1 = document.querySelector('#title1') // 获取第一个h1元素
+    // let h1 = document.querySelector('h1') // 获取第一个元素
+    let ha = document.querySelectorAll('h1') // 获取所有h1元素
+    // 1.2 调用DOM对象中的属性或方法
+    // h1.innerHTML = '修改后的内容' // 修改h1元素的内容
+    ha[0].innerHTML = '修改后的内容' // 修改h1元素的内容
+  </script>
+</body>
+</html>

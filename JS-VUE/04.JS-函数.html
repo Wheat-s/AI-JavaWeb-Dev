@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS - 函数</title>
+</head>
+<body>
+  
+
+  <script>
+    // 1. 函数的定义及调用 - 具名函数
+    function add(a,b) {
+      return a + b;
+    }
+
+    let result1 = add(10,20); // 30
+    console.log('具名函数定义和调用');
+    console.log(result1);
+    
+
+    // 2. 函数的定义及调用 - 匿名函数
+    // 2.1 函数表达式
+    let add2 = function(a,b) {
+      return a + b;
+    }
+
+    let result2 = add(30,20); // 50
+    console.log('函数表达式');
+    console.log(result2);
+
+    // 2.2 箭头表达式
+    let add3 = (a,b) => {
+      return a + b;
+    }
+
+    let result3 = add(10,10); // 20
+    console.log('箭头表达式');
+    console.log(result3);
+  </script>
+</body>
+</html>
