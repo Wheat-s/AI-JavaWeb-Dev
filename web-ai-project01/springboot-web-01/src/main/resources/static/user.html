@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>用户列表数据</title>
+    <style>
+      /* 全局样式 */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f8;
+        margin: 0;
+        padding: 20px;
+      }
+
+      /* 页面标题居中，增加顶部留白 */
+      #app {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      /* 表格基础样式 */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      /* 表头样式 */
+      thead {
+        background-color: #2196f3;
+        color: white;
+      }
+
+      th {
+        padding: 14px 16px;
+        text-align: left;
+        font-weight: 600;
+      }
+
+      /* 表格行样式 */
+      tbody tr {
+        transition: background-color 0.3s ease;
+      }
+
+      tbody tr:hover {
+        background-color: #f1f9ff;
+      }
+
+      /* 单元格内边距和边框 */
+      td {
+        padding: 12px 16px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* 最后一行去掉底部边框 */
+      td:last-child,
+      th:last-child {
+        border-right: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>用户列表数据</h1>
+      <!-- 定义一个表格，包括6列，分别是：ID，用户名，密码，姓名，年龄，更新时间 -->
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>密码</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>更新时间</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in usersList">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.password}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td>{{user.updateTime}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 引入axios -->
+    <script src="js/axios.min.js"></script>
+    <script type="module">
+      // 引入Vue并创建应用
+      import { createApp } from "./js/vue.esm-browser.js";
+      createApp({
+        // 定义应用的数据
+        data() {
+          return {
+            usersList: [],
+          };
+        },
+        // 定义应用的方法
+        methods: {
+          // 异步方法search，用于从服务器获取用户列表
+          async search() {
+            const result = await axios.get("/list");
+            this.usersList = result.data;
+          },
+        },
+        // 在组件挂载后自动调用search方法
+        mounted() {
+          this.search();
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
