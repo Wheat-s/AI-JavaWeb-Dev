@@ -1,25 +1,40 @@
 package org.wheat.controller;
 
-import cn.hutool.core.io.IoUtil;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.wheat.pojo.User;
+import org.wheat.service.UserService;
 
-
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
 
-    @RequestMapping("/list")
-    public List<User> list() throws Exception {
-        // 1. 加载并读取user.text文件，获取用户信息
+    // 方式一：属性注入
+    // @Qualifier("userServiceImpl")
+    // @Autowired
+    // private UserService userService;
+    @Resource(name = "userServiceImpl2")
+    private UserService userService;
+
+    // 方式二：构造器注入
+    // private final UserService userService;
+    // @Autowired
+    // public UserController(UserService userService) {
+    //     this.userService = userService;
+    // }
+
+    // 方式三：setter注入
+    // private UserService userService;
+    // @Autowired
+    // public void setUserService(UserService userService) {
+    //     this.userService = userService;
+    // }
+
+
+    /*
+     // 1. 加载并读取user.text文件，获取用户信息
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("user.txt");
         ArrayList<String> lines = IoUtil.readLines(in, StandardCharsets.UTF_8, new ArrayList<>());
 
@@ -36,6 +51,13 @@ public class UserController {
             return new User(id, username, password, name, age, updateTime);
         }).toList();
 
+        // 3. 返回数据
+        return userList;
+     */
+    @RequestMapping("/list")
+    public List<User> list() throws Exception {
+        // 1. 调用service 获取数据
+        List<User> userList = userService.findAll();
         // 3. 返回数据
         return userList;
     }
