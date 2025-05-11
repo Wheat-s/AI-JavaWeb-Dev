@@ -1,0 +1,55 @@
+##定义对象/Map集合
+#user:
+#  name: ZhangSan
+#  age: 18
+#  gender: 男
+#  
+#  
+##定义数组/List/Set集合
+#hobby:
+#  - Java
+#  - Python
+#  - C++
+
+#以上是备份学习语法,并不重要.
+#======================================================
+
+#======================================================
+#老的application.properties 的配置文件
+#spring.application.name=springboot-mybatis-quickstart
+#  
+#  # 配置数据库连接信息.
+#spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+#
+#spring.datasource.url=jdbc:mysql://localhost:3306/web01
+#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+#spring.datasource.username=root
+#spring.datasource.password=12341234
+#  
+#  # 配置mybatis的日志输出
+#mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+#  
+#  # 制定xml映射配置文件的位置
+#mybatis.mapper-locations=classpath:mapper/*.xml
+#======================================================
+
+
+#==================新的yml配置文件==========================
+spring:
+  application:
+      name: springboot-mybatis-quickstart 
+  # 配置数据库连接信息.
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/web01
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 12341234
+
+# mybatis的相关配置
+mybatis:
+  configuration:
+    # 配置mybatis的日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 制定xml映射配置文件的位置
+  mapper-locations: classpath:mapper/*.xml
