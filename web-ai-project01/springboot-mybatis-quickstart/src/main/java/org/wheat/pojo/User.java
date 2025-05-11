@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 用户类，用于表示系统中的用户信息
@@ -40,9 +38,4 @@ public class User {
      * 年龄，表示用户的年龄
      */
     private Integer age;
-
-    /**
-     * 更新时间，记录用户信息最后一次更新的时间
-     */
-    private LocalDateTime updateTime;
 }
