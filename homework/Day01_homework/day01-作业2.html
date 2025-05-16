@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作业2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 10px;
+      padding: 10px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    table {
+      width: 60%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    a {
+      color: blue;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td, th {
+      border: 1px solid black;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 作业2：通过HTML的表格、超链接、音频标签，完成如下页面制作   【必做】 
+   效果说明：
+    1. 点击歌手名字，会打开新的标签页，在新的标签页中展示歌手的个人简介。
+    2. 点击播放控件，开始播放对应的歌曲。
+    数据说明：  
+    1. 表格数据如下：
+      1        唐人                        覃沐曦         03:44        
+      2        漂洋过海来看你         周深            03:03        
+      3        小幸运                     田馥甄         04:17        
+      4        Excitant                   成驰洋         03:30       
+      
+      2. 表格中歌手对应的个人简介地址如下：
+  覃沐曦：https://baike.baidu.com/item/%E8%A6%83%E6%B2%90%E6%9B%A6/2582347?fr=aladdin
+  周深：https://baike.baidu.com/item/%E5%91%A8%E6%B7%B1/15089196?fr=aladdin
+  田馥甄：https://baike.baidu.com/item/%E7%94%B0%E9%A6%A5%E7%94%84?fromModule=lemma_search-box
+  成驰洋：https://baike.baidu.com/item/%E6%88%90%E9%A9%B0%E6%B4%8B?fromModule=lemma_search-box
+  -->
+  <div class="container">
+      <table>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>标题</th>
+            <th>歌手</th>
+            <th>时长</th>
+            <th>播放</th>
+          </tr>
+        </thead>
+        <tbody> 
+          <tr>
+            <td>1</td>
+            <td>唐人</td>
+            <td><a href="https://baike.baidu.com/item/%E8%A6%83%E6%B2%90%E6%9B%A6/2582347?fr=aladdin" target="_blank">覃沐曦</a></td>
+            <td>03:44</td>
+            <td><audio controls src="mp3/唐人.mp3"></audio></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>漂洋过海来看你</td>
+            <td><a href="https://baike.baidu.com/item/%E5%91%A8%E6%B7%B1/15089196?fr=aladdin" target="_blank">周深</a></td>
+            <td>03:03</td>
+            <td><audio controls src="mp3/小幸运.mp3"></audio></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>小幸运</td>
+            <td><a href="https://baike.baidu.com/item/%E7%94%B0%E9%A6%A5%E7%94%84?fromModule=lemma_search-box" target="_blank">田馥甄</a></td>
+            <td>04:17</td>
+            <td><audio controls src="mp3/小幸运.mp3"></audio></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Excitant</td>
+            <td><a href="https://baike.baidu.com/item/%E6%88%90%E9%A9%B0%E6%B4%8B?fromModule=lemma_search-box" target="_blank">成驰洋</a></td>
+            <td>03:30</td>
+            <td><audio controls src="mp3/Excitant.mp3"></audio></td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</body>
+</html>

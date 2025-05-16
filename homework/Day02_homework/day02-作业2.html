@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作业2</title>
+    <style>
+      table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 10px 0px;
+      }
+    </style>
+  </head>
+  <!-- 
+    作业2：根据需求完成如下页面数据列表展示 【选做】
+    需求：Vue挂载完成后,通过axios发送异步请求到服务端,获取学生列表数据,并通过Vue展示在页面上.
+    获取数据url：https://mock.apifox.cn/m1/3128855-0-default/student
+  -->
+  <body>
+    <!-- 需求: Vue挂载完成后, 通过axios发送异步请求到服务端, 或者学生列表数据, 并通过Vue展示在页面上. -->
+    <div id="app">
+      <table>
+        <tr>
+          <th>编号</th>
+          <th>姓名</th>
+          <th>图像</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>成绩</th>
+          <th>等级</th>
+        </tr>
+
+        <tr v-for="(stu, index) in students" :key="index" align="center">
+          <td>{{ stu.id }}</td>
+          <td>{{ stu.name }}</td>
+          <td>
+            <img
+              :src="stu.image"
+              height="50"
+              width="70"
+            />
+          </td>
+          <td>{{ stu.age }}</td>
+          <td>
+            <span v-if="stu.gender === 1">男</span>
+            <span v-else >女</span>
+          </td>
+          <td>{{ stu.score }}</td>
+          <td>
+            <span v-if="stu.score >= 85" style="color: green">优秀</span>
+            <span v-else-if="stu.score >=60 & stu.score < 85" style="color: yellow">及格</span>
+            <span v-else style="color: red">不及格</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module">
+      import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+
+      createApp({
+        data() {
+          return {
+            students: [],
+          };
+        },
+        methods: { // 定义方法 获取数据 
+          async search() {
+            const res = await axios.get(
+              "https://mock.apifox.cn/m1/3128855-0-default/student"
+            );
+            this.students = res.data.data;
+          },
+        },
+        mounted() { // 页面挂载完成后执行
+          this.search();
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
