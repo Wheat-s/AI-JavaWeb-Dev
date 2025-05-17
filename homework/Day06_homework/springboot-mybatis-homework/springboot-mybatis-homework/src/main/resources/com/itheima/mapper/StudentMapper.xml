@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.StudentMapper">
+    
+    <select id="findById" resultType="com.itheima.pojo.Student">
+        select ID,  NAME, NO, GENDER, PHONE, ID_CARD, DEGREE, GRADUATION_DATE, CREATE_TIME, UPDATE_TIME from student where id = #{id}
+    </select>
+    
+    <delete id="deleteById" parameterType="int">
+        delete from student where id = #{id}
+    </delete>
+</mapper>
