@@ -2,16 +2,18 @@ package com.wheat.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.wheat.mapper.EmpExprMapper;
 import com.wheat.mapper.EmpMapper;
 import com.wheat.pojo.Emp;
+import com.wheat.pojo.EmpExpr;
 import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
 import com.wheat.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,6 +21,8 @@ public class EmpServiceImpl implements EmpService {
 
     @Autowired
     private EmpMapper empMapper;
+    @Autowired
+    private EmpExprMapper empExprMapper;
     
 
     /**
@@ -90,5 +94,21 @@ public class EmpServiceImpl implements EmpService {
         return new PageResult<Emp>(p.getTotal(), p.getResult());
     }
 
-
+    @Override
+    public void save(Emp emp) {
+        //1. 保存员工基本信息
+        //1.1  设置基础属性
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.insert(emp);
+        System.out.println("Inserted emp id: " + emp.getId()); // 应该是一个整数
+        
+        //2. 保存员工工作经历信息
+        List<EmpExpr> exprList = emp.getExprList();
+        if (!CollectionUtils.isEmpty(exprList)) {
+            // 遍历集合,为empID赋值
+            exprList.forEach(expr -> expr.setEmpId(emp.getId()));
+            empExprMapper.insertBatch(exprList);
+        }
+    }
 }

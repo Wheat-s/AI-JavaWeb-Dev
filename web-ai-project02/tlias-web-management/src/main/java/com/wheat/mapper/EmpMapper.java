@@ -2,9 +2,7 @@ package com.wheat.mapper;
 
 import com.wheat.pojo.Emp;
 import com.wheat.pojo.EmpQueryParam;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -37,5 +35,12 @@ public interface EmpMapper {
      * 条件查询员工信息
      */
     public List<Emp> list(EmpQueryParam empQueryParam);
- 
+
+    /**
+     * 新增员工基本信息
+     */
+    @Options(useGeneratedKeys = true, keyProperty = "id") // 插入数据后，返回主键值 用于绑定empID 插入的工作经历
+    @Insert("insert into emp (username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time)" +
+            " VALUES(#{username}, #{name}, #{gender}, #{phone}, #{job}, #{salary}, #{image}, #{entryDate}, #{deptId}, #{createTime}, #{updateTime})")
+    void insert(Emp emp);
 }
