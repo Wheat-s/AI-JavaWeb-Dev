@@ -3,9 +3,6 @@ package com.wheat.service;
 import com.wheat.pojo.Emp;
 import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 public interface EmpService {
 
@@ -17,7 +14,7 @@ public interface EmpService {
     /**
      * 新增员工
      */
-    void save(Emp emp);
+    void save(Emp emp) throws Exception;
     
     /**
      * 分页查询
