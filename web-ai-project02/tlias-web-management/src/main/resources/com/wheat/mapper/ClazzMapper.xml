@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wheat.mapper.ClazzMapper">
+    <!-- =================== 原始方式 分页方法 =====================  -->
+    <select id="getClazzList" resultType="com.wheat.pojo.Clazz">
+        <![CDATA[
+        SELECT c.*,
+               e.name   AS masterName,
+               (CASE
+                    WHEN NOW() > c.end_date THEN '已结课'
+                    WHEN NOW() < c.begin_date THEN '未开班'
+                    ELSE '在读中'
+                   END) AS status
+        FROM clazz c
+                 LEFT JOIN
+             emp e ON c.master_id = e.id
+        order by c.update_time desc
+        limit #{page},#{pageSize}
+        ]]>
+    </select>
+    
+    
+    <!-- =================== PageHelper方式 分页方法 =====================  -->
+    <select id="list" resultType="com.wheat.pojo.Clazz">
+        <![CDATA[
+        SELECT c.*,
+               e.name   AS masterName,
+               (CASE
+                    WHEN NOW() > c.end_date THEN '已结课'
+                    WHEN NOW() < c.begin_date THEN '未开班'
+                    ELSE '在读中'
+                   END) AS status
+        FROM clazz c
+                 LEFT JOIN
+             emp e ON c.master_id = e.id
+        order by c.update_time desc
+        ]]>
+    </select>
+    
+    <!-- =================== 条件分页查询 分页方法 ===================== -->
+    <select id="pageList" resultType="com.wheat.pojo.Clazz">
+        <![CDATA[
+        SELECT
+            c.*,
+            e.name AS masterName,
+            (CASE
+                 WHEN NOW() > c.end_date THEN '已结课'
+                 WHEN NOW() < c.begin_date THEN '未开班'
+                 ELSE '在读中'
+                END) AS status
+        FROM
+            clazz c
+                LEFT JOIN
+            emp e ON c.master_id = e.id
+        ]]>
+        <where>
+            <if test="name != null and name != ''">
+                AND c.name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="begin != null and end != null">
+                AND c.begin_date between #{begin} and #{end}
+            </if>
+        </where>
+        order by c.update_time desc
+        
+    </select>
+</mapper>

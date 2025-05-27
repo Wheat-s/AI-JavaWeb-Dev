@@ -1,0 +1,20 @@
+package com.wheat.service;
+
+import com.wheat.pojo.Clazz;
+import com.wheat.pojo.PageResult;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface ClazzService {
+    
+    /**
+     * 获取班级列表
+     * 分页查询
+     */
+    // =================== 原始方式 分页方法 =====================
+    //PageResult<Clazz> getClazzList(Integer page, Integer pageSize);
+
+    // =================== 条件分页查询 分页方法 =====================
+    PageResult<Clazz> page(Integer page, Integer pageSize, String name, LocalDate begin, LocalDate end);    
+}
