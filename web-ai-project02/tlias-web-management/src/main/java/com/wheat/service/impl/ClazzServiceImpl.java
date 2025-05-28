@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.wheat.mapper.ClazzMapper;
 import com.wheat.pojo.Clazz;
+import com.wheat.pojo.ClazzQueryParam;
+import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
 import com.wheat.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class ClazzServiceImpl implements ClazzService {
     
     
     // =================== 条件分页查询 分页方法 =====================
-    @Override
+   /* @Override
     public PageResult<Clazz> page(Integer page, Integer pageSize, String name, LocalDate begin, LocalDate end) {
         //1. 设置分页参数
         PageHelper.startPage(page, pageSize);
@@ -59,6 +61,24 @@ public class ClazzServiceImpl implements ClazzService {
         List<Clazz> clazzList = clazzMapper.pageList(name, begin, end);
 
         //3. 解析查询结果
+        Page<Clazz> p = (Page<Clazz>) clazzList;
+
+        //4.封装结果
+        return new PageResult<Clazz>(p.getTotal(), p.getResult());
+    }*/
+
+
+    // =============== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
+
+    @Override
+    public PageResult<Clazz> page(ClazzQueryParam clazzQueryParam) {
+        //1.设置PageHelper分页参数
+        PageHelper.startPage(clazzQueryParam.getPage(), clazzQueryParam.getPageSize());
+        
+        //2.执行查询
+        List<Clazz> clazzList = clazzMapper.pageList(clazzQueryParam);
+        
+        //3.解析查询结果，并封装
         Page<Clazz> p = (Page<Clazz>) clazzList;
 
         //4.封装结果

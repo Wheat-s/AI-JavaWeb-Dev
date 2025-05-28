@@ -74,4 +74,10 @@ public interface EmpMapper {
      */
     //@MapKey("name")
     List<Map<String, Object>> countEmpGenderData();
+
+    /**
+     * 查询所有员工信息
+     */
+    @Select("select e.*, d.name deptName from emp e left join dept d  on e.dept_id = d.id where e.job = 1")
+    List<Emp> getList();
 }

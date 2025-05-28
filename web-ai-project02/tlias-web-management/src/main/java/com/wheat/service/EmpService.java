@@ -27,6 +27,8 @@ public interface EmpService {
 
     void update(Emp emp);
 
+    List<Emp> getList();
+
 
     /**
      * 分页查询

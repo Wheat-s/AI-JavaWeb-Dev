@@ -157,5 +157,14 @@ public class EmpServiceImpl implements EmpService {
         }
     }
 
+    /**
+     * 查询全部员工列表
+     */
+    @Override
+    public List<Emp> getList() {
+        
+        return empMapper.getList();
+    }
+
 
 }

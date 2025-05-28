@@ -32,8 +32,15 @@ aliyun:
     endpoint: https://oss-cn-beijing.aliyuncs.com
     bucketName: maize
     region: cn-beijing
-    
-    
+
+#分页插件 合理化参数配置，来解决页码为负数时，自动转为1的问题
+#reasonable：分页合理化参数，默认值为false。
+#当该参数设置为true时，pageNum<=0时会查询第一页，
+#当pageNum>pages（超过总数时），会查询最后一页。
+#默认false 时，直接根据参数进行查询。 
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql
     
     
     

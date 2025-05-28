@@ -1,6 +1,5 @@
 package com.wheat.controller;
 
-import com.google.errorprone.annotations.Var;
 import com.wheat.pojo.Emp;
 import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
@@ -8,11 +7,8 @@ import com.wheat.pojo.Result;
 import com.wheat.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -97,5 +93,15 @@ public class EmpController {
         log.info("修改员工: {}", emp);
         empService.update(emp);
         return Result.success();
+    }
+
+    /**
+     * 查询全部员工
+     */
+    @GetMapping("list")
+    public Result getList(){
+        log.info("查询全部员工");
+        List<Emp> empList = empService.getList();
+        return Result.success(empList);
     }
 }

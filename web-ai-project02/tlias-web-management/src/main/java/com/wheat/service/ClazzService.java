@@ -1,6 +1,8 @@
 package com.wheat.service;
 
 import com.wheat.pojo.Clazz;
+import com.wheat.pojo.ClazzQueryParam;
+import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
 
 import java.time.LocalDate;
@@ -16,5 +18,8 @@ public interface ClazzService {
     //PageResult<Clazz> getClazzList(Integer page, Integer pageSize);
 
     // =================== 条件分页查询 分页方法 =====================
-    PageResult<Clazz> page(Integer page, Integer pageSize, String name, LocalDate begin, LocalDate end);    
+    //PageResult<Clazz> page(Integer page, Integer pageSize, String name, LocalDate begin, LocalDate end);
+
+    // =================== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
+    PageResult<Clazz> page(ClazzQueryParam clazzQueryParam);
 }

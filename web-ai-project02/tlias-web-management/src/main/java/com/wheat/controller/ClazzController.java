@@ -2,6 +2,7 @@ package com.wheat.controller;
 
 import com.wheat.mapper.ClazzMapper;
 import com.wheat.pojo.Clazz;
+import com.wheat.pojo.ClazzQueryParam;
 import com.wheat.pojo.PageResult;
 import com.wheat.pojo.Result;
 import com.wheat.service.ClazzService;
@@ -91,7 +92,7 @@ public class ClazzController {
     }*/
 
     // =================== 条件分页查询 分页方法 =====================
-    @GetMapping
+    /*@GetMapping
     public Result page(@RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer pageSize,
                        String name,
@@ -99,6 +100,15 @@ public class ClazzController {
                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
         log.info("班级查询: page={}, pageSize={}, name={}, begin={}, end={}", page, pageSize, name, begin, end);
         PageResult<Clazz> pageResult = clazzService.page(page, pageSize, name, begin, end);
+        return Result.success(pageResult);
+    }*/
+
+    // =================== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
+    @GetMapping
+    public Result page(ClazzQueryParam clazzQueryParam) {
+        clazzQueryParam.validate(); // 验证参数
+        log.info("班级查询: page={}, pageSize={}, name={}, begin={}, end={}", clazzQueryParam.getPage(), clazzQueryParam.getPageSize(), clazzQueryParam.getName(), clazzQueryParam.getBegin(), clazzQueryParam.getEnd());
+        PageResult<Clazz> pageResult = clazzService.page(clazzQueryParam);
         return Result.success(pageResult);
     }
 }
