@@ -52,7 +52,7 @@ public interface EmpMapper {
 
     /**
      * 根据ID查询员工信息及工作经历信息
-     * @param id
+     // * @param id
      * @return
      */
     Emp getById(Integer id);

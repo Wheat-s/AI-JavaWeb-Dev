@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     }
     
     
-   @ExceptionHandler 
+    @ExceptionHandler 
     public Result handleDuplicateKeyException(DuplicateKeyException e){
        log.error("程序出错了~", e);
        /*//从异常对象 e 中获取错误信息的字符串
@@ -81,4 +81,9 @@ public class GlobalExceptionHandler {
        return Result.error(fieldName + ": " + value + " 已存在");
    }
     
+    @ExceptionHandler(BusinessException.class)
+    public Result handleBusinessException(BusinessException e){
+        log.error("业务异常: {}", e.getMessage(), e);
+        return Result.error(e.getMessage());
+    } 
 }

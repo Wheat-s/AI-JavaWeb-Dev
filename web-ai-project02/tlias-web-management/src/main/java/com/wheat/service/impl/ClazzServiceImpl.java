@@ -2,6 +2,7 @@ package com.wheat.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.wheat.exception.BusinessException;
 import com.wheat.mapper.ClazzMapper;
 import com.wheat.pojo.Clazz;
 import com.wheat.pojo.ClazzQueryParam;
@@ -10,6 +11,7 @@ import com.wheat.pojo.PageResult;
 import com.wheat.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -86,6 +88,10 @@ public class ClazzServiceImpl implements ClazzService {
         return new PageResult<Clazz>(p.getTotal(), p.getResult());
     }
 
+<<<<<<< HEAD
+=======
+    // =================== 添加班级 =========================
+>>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
     @Override
     public void addClazz(Clazz clazz) {
         //1.设置默认值
@@ -93,4 +99,34 @@ public class ClazzServiceImpl implements ClazzService {
         clazz.setUpdateTime(LocalDateTime.now());
         clazzMapper.addClazz(clazz);
     }
+<<<<<<< HEAD
+=======
+
+    // =================== 根据ID查询班级 ======================
+    @Override
+    public Clazz getInfo(Integer id) {
+        return clazzMapper.getInfo(id);
+    }
+
+
+    // =================== 修改班级信息接口 =====================
+    @Override
+    public void update(Clazz clazz) {
+        //1.根据id 修改班级的基本信息. 修改时间 updateTime
+        clazz.setUpdateTime(LocalDateTime.now());
+        clazzMapper.updateById(clazz);
+    }
+
+    // =================== 删除班级信息接口 =====================
+    @Override
+    public void deleteByClazzId(Integer id) throws BusinessException {
+        //1.判断该班级下面是否有学生
+        Integer count = clazzMapper.countStudentByClazzId(id);
+        if (count > 0) {
+            throw new BusinessException("该班级下有学生，不能删除");
+        }
+        //2.如果没有学生 就执行 删除操作
+        clazzMapper.deleteByClazzId(id);
+    }
+>>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
 }

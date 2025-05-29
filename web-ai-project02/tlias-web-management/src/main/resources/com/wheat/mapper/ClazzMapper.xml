@@ -97,4 +97,37 @@
             #{updateTime},
         </trim>
     </insert>
+<<<<<<< HEAD
+=======
+    
+    <select id="getInfo" resultType="com.wheat.pojo.Clazz">
+        select c.id,
+               c.name,
+               c.room,
+               c.begin_date,
+               c.end_date,  
+               c.master_id,
+               c.subject,
+               c.create_time,
+               c.update_time
+        from clazz c
+                 left join emp e on c.master_id = e.id
+        where c.id = #{id}
+    </select>
+    
+    <update id="updateById">
+        update clazz
+        <set>
+            <if test="name != null and name !=''">name = #{name},</if>
+            <if test="room != null and room !=''">room = #{room},</if>
+            <if test="beginDate != null">begin_date = #{beginDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="masterId != null">master_id = #{masterId},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+>>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
 </mapper>
