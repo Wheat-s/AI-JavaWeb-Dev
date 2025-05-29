@@ -9,10 +9,7 @@ import com.wheat.service.ClazzService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -106,9 +103,18 @@ public class ClazzController {
     // =================== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
     @GetMapping
     public Result page(ClazzQueryParam clazzQueryParam) {
+        log.info("班级查询: clazzQueryParam={}", clazzQueryParam);
         clazzQueryParam.validate(); // 验证参数
         log.info("班级查询: page={}, pageSize={}, name={}, begin={}, end={}", clazzQueryParam.getPage(), clazzQueryParam.getPageSize(), clazzQueryParam.getName(), clazzQueryParam.getBegin(), clazzQueryParam.getEnd());
         PageResult<Clazz> pageResult = clazzService.page(clazzQueryParam);
         return Result.success(pageResult);
+    }
+
+    // =================== 新增班级 =====================
+    @PostMapping
+    public Result addClazz(@RequestBody Clazz clazz) {
+        log.info("新增班级: {}", clazz);
+        clazzService.addClazz(clazz);
+        return Result.success();
     }
 }

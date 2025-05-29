@@ -3,6 +3,7 @@ package com.wheat.mapper;
 import com.wheat.pojo.Clazz;
 import com.wheat.pojo.ClazzQueryParam;
 import com.wheat.pojo.EmpQueryParam;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -36,5 +37,6 @@ public interface  ClazzMapper {
     
     // =============== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
     List<Clazz> pageList(ClazzQueryParam clazzQueryParam);
-    
+
+    void addClazz(Clazz clazz);
 }

@@ -65,4 +65,36 @@
         </where>
         order by c.update_time desc
     </select>
+    
+    
+    <!-- =================== 新增班级 ===================== -->
+    <insert id="addClazz">
+        INSERT INTO clazz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            room,
+            begin_date,
+            end_date,
+            <if test="masterId != null">
+                master_id,
+            </if>
+            subject,
+            create_time,
+            update_time
+        </trim>
+        
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name},
+            #{room},
+            #{beginDate},
+            #{endDate},
+            <if test="masterId != null">
+                #{masterId},
+            </if>
+            #{subject},
+            #{createTime},
+            #{updateTime},
+        </trim>
+    </insert>
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -83,5 +84,13 @@ public class ClazzServiceImpl implements ClazzService {
 
         //4.封装结果
         return new PageResult<Clazz>(p.getTotal(), p.getResult());
+    }
+
+    @Override
+    public void addClazz(Clazz clazz) {
+        //1.设置默认值
+        clazz.setCreateTime(LocalDateTime.now());
+        clazz.setUpdateTime(LocalDateTime.now());
+        clazzMapper.addClazz(clazz);
     }
 }

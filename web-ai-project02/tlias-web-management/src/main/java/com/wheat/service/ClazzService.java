@@ -22,4 +22,9 @@ public interface ClazzService {
 
     // =================== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
     PageResult<Clazz> page(ClazzQueryParam clazzQueryParam);
+
+    /**
+     * 添加班级
+     */
+    void addClazz(Clazz clazz);
 }

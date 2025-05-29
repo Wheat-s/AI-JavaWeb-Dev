@@ -98,7 +98,7 @@ public class EmpController {
     /**
      * 查询全部员工
      */
-    @GetMapping("list")
+    @GetMapping("/list")
     public Result getList(){
         log.info("查询全部员工");
         List<Emp> empList = empService.getList();
