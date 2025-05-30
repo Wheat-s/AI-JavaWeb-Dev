@@ -1,7 +1,6 @@
 package com.wheat.controller;
 
 import com.wheat.exception.BusinessException;
-import com.wheat.mapper.ClazzMapper;
 import com.wheat.pojo.Clazz;
 import com.wheat.pojo.ClazzQueryParam;
 import com.wheat.pojo.PageResult;
@@ -9,11 +8,7 @@ import com.wheat.pojo.Result;
 import com.wheat.service.ClazzService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -38,7 +33,7 @@ public class ClazzController {
      * 请求参数 name(可选),begin(可选),end(可选), page(必须), pageSize(必须)
      * 请求数据样例：/clazzs?name=java&begin=2023-01-01&end=2023-06-30&page=1&pageSize=5
      *
-     * @return 总记录数(total), 当前页列表数据(rows)
+     * 返回 总记录数(total), 当前页列表数据(rows)
      * 返回的列表数据示例:
      * {
      * "code": 1,
@@ -118,8 +113,6 @@ public class ClazzController {
         clazzService.addClazz(clazz);
         return Result.success();
     }
-<<<<<<< HEAD
-=======
 
     // =================== 根据ID查询班级 ======================
     /*
@@ -245,5 +238,4 @@ public class ClazzController {
         return Result.success();
     }
     
->>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
 }
