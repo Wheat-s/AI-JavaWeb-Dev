@@ -1,5 +1,6 @@
 package com.wheat.service.impl;
 
+import com.wheat.exception.BusinessException;
 import com.wheat.mapper.DeptMapper;
 import com.wheat.pojo.Dept;
 import com.wheat.service.DeptService;
@@ -23,6 +24,12 @@ public class DeptServiceImpl implements DeptService {
     
     @Override
     public void deleteById(Integer id) {
+        //1.判断该部门是否有员工
+        Integer count = deptMapper.countEmpBy(id);
+        // 如果没有则进行删除
+        if(count > 0) {
+            throw new BusinessException("该部门下有员工，不能删除");
+        }
         deptMapper.deleteById(id);
     }
 

@@ -2,12 +2,10 @@ package com.wheat.mapper;
 
 import com.wheat.pojo.Clazz;
 import com.wheat.pojo.ClazzQueryParam;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ClazzMapper {
@@ -58,4 +56,7 @@ public interface ClazzMapper {
     // =================== 查询所有班级 =====================
     @Select("select clazz.* from clazz left join emp on clazz.master_id = emp.id")
     List<Clazz> getClazzList();
+
+    //  查询班级人数
+    List<Map<String, Object>> getStudentCountData();
 }

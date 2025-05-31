@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/students")
@@ -132,4 +134,34 @@ public class StudentController {
         Student student = studentService.getInfo(id);
         return Result.success(student);
     }
+
+
+    // =================== 修改学生信息接口 =====================
+    @PutMapping
+    public Result updateStudent(@RequestBody Student student){
+        log.info("修改学生信息: {}", student);
+        studentService.updateStudent(student);
+        return Result.success();
+    }
+    
+    
+    // =================== 删除学生信息接口 =====================
+    @DeleteMapping("/{ids}")
+    public Result deleteStudentList(@PathVariable List<Integer> ids){
+        log.info("删除学生信息: {}", ids);
+        studentService.deleteStudentList(ids);
+        return Result.success();
+    }
+    
+    
+    // =================== 违纪处理接口 ========================
+    @PutMapping("/violation/{id}/{score}")
+    public Result violation(@PathVariable Integer id, @PathVariable Integer score){
+        studentService.violation(id, score);
+        return Result.success();
+    }
+    
+    
+    
+    
 }

@@ -46,8 +46,29 @@ public class StudentServiceImpl implements StudentService {
          studentMapper.addStudent(student);
     }
 
+    // =================== 根据ID查询学生信息 =====================
     @Override
     public Student getInfo(Integer id) {
         return studentMapper.getInfo(id);
+    }
+
+    // =================== 修改学生信息接口 =====================
+    @Override
+    public void updateStudent(Student student) {
+        //1.修改基础属性
+        student.setUpdateTime(LocalDateTime.now());
+        studentMapper.updateStudent(student);
+    }
+
+    // =================== 删除学生信息接口 =====================
+    @Override
+    public void deleteStudentList(List<Integer> ids) {
+        studentMapper.deleteStudentList(ids);
+    }
+
+    // =================== 违纪处理接口 ========================
+    @Override
+    public void violation(Integer id, Integer score) {
+        studentMapper.updateViolation(id, score);
     }
 }

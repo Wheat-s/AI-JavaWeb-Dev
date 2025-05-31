@@ -127,4 +127,13 @@
         </set>
         where id = #{id}
     </update>
+    
+    
+    <select id="getStudentCountData" resultType="java.util.Map">
+         select c.name  as name,
+               count(*) as num
+        from clazz c
+                 left join student s on c.id = s.clazz_id
+        group by c.name
+    </select>
 </mapper>

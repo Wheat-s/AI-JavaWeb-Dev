@@ -1,5 +1,6 @@
 package com.wheat.controller;
 
+import com.wheat.pojo.ClazzOption;
 import com.wheat.pojo.JobOption;
 import com.wheat.pojo.Result;
 import com.wheat.service.ReportService;
@@ -41,5 +42,38 @@ public class ReportController {
         
         return Result.success(genderList);
     }
-    
+
+    /**
+     * 班级人数统计
+     * {
+     *   "code": 1,
+     *   "msg": "success",
+     *   "data": {
+     *     "clazzList": ["Java就业100期","Java就业101期","Java就业102期","Java就业103期","Java就业104期"],
+     *     "dataList": [77,82,70,80,90]
+     *   }
+     * }
+     * <p>
+     * ClazzOption.java
+     */
+    @GetMapping("/studentCountData")
+    public Result getStudentCountData(){
+        log.info("班级人数统计");
+        //
+        ClazzOption clazzOption =  reportService.getStudentCountData();
+        
+        return Result.success(clazzOption);
+    }
+
+    /**
+     * 学员学历统计
+     */
+     @GetMapping("/studentDegreeData")
+    public Result getStudentDegreeData(){
+        log.info("学员学历统计");
+        //
+        List<Map<String,Object>> degreeList =  reportService.getStudentDegreeData();
+        
+        return Result.success(degreeList);
+    }
 }
