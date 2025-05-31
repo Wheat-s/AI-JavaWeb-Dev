@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wheat.mapper.ClazzMapper">
     <!-- =================== 原始方式 分页方法 =====================  -->
-    <select id="getClazzList" resultType="com.wheat.pojo.Clazz">
+    <!-- <select id="getClazzList" resultType="com.wheat.pojo.Clazz">
         <![CDATA[
         SELECT c.*,
                e.name   AS masterName,
@@ -19,11 +19,11 @@
         order by c.update_time desc
         limit #{page},#{pageSize}
         ]]>
-    </select>
+    </select> -->
     
     
     <!-- =================== PageHelper方式 分页方法 =====================  -->
-    <select id="list" resultType="com.wheat.pojo.Clazz">
+    <!-- <select id="list" resultType="com.wheat.pojo.Clazz">
         <![CDATA[
         SELECT c.*,
                e.name   AS masterName,
@@ -37,7 +37,7 @@
              emp e ON c.master_id = e.id
         order by c.update_time desc
         ]]>
-    </select>
+    </select> -->
     
     <!-- =================== 条件分页查询 分页方法 ===================== -->
     <select id="pageList" resultType="com.wheat.pojo.Clazz">

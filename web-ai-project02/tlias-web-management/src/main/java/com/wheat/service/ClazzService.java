@@ -3,11 +3,8 @@ package com.wheat.service;
 import com.wheat.exception.BusinessException;
 import com.wheat.pojo.Clazz;
 import com.wheat.pojo.ClazzQueryParam;
-import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface ClazzService {
@@ -39,4 +36,7 @@ public interface ClazzService {
     
     // =================== 删除班级信息接口 =====================
     void deleteByClazzId(Integer id) throws BusinessException;
+
+    // =================== 查询所有班级 =====================
+    List<Clazz> getClazzList();
 }

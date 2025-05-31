@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wheat.mapper.StudentMapper">
+    
+    <!-- =================== 学生列表分页查询 ===================== -->
+    <select id="pageList" resultType="com.wheat.pojo.Student">
+        select 
+            student.*, clazz.name as clazzName 
+        from 
+            student left join clazz on student.clazz_id = clazz.id
+        <where>
+            <if test="name != null and name != ''">
+                and student.name like concat('%',#{name}, '%')
+            </if>
+            <if test="degree != null">
+                and student.degree =  #{degree}
+            </if>
+            <if test="clazzId != null">
+                and student.clazz_id =  #{clazzId}
+            </if>
+        </where>
+        order by student.update_time desc
+    </select>
+    
+    <insert id="addStudent">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="no != null">
+                no,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="idCard != null">
+                id_card,
+            </if>
+            <if test="isCollege != null">
+                is_college,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="degree != null">
+                degree,
+            </if>
+            <if test="graduationDate != null">
+                graduation_date,
+            </if>
+            <if test="clazzId != null">
+                clazz_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="no != null">
+                #{no},
+            </if>
+            <if test="gender != null">
+                #{gender},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="idCard != null">
+                #{idCard},
+            </if>
+            <if test="isCollege != null">
+                #{isCollege},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="degree != null">
+                #{degree},
+            </if>
+            <if test="graduationDate != null">
+                #{graduationDate},
+            </if>
+            <if test="clazzId != null">
+                #{clazzId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+</mapper>

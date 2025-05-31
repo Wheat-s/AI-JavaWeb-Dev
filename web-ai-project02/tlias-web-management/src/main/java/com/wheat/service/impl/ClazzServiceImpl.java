@@ -6,14 +6,11 @@ import com.wheat.exception.BusinessException;
 import com.wheat.mapper.ClazzMapper;
 import com.wheat.pojo.Clazz;
 import com.wheat.pojo.ClazzQueryParam;
-import com.wheat.pojo.EmpQueryParam;
 import com.wheat.pojo.PageResult;
 import com.wheat.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -52,8 +49,8 @@ public class ClazzServiceImpl implements ClazzService {
         //4.封装结果
         return new PageResult<Clazz>(p.getTotal(), p.getResult());
     }*/
-    
-    
+
+
     // =================== 条件分页查询 分页方法 =====================
    /* @Override
     public PageResult<Clazz> page(Integer page, Integer pageSize, String name, LocalDate begin, LocalDate end) {
@@ -77,16 +74,17 @@ public class ClazzServiceImpl implements ClazzService {
     public PageResult<Clazz> page(ClazzQueryParam clazzQueryParam) {
         //1.设置PageHelper分页参数
         PageHelper.startPage(clazzQueryParam.getPage(), clazzQueryParam.getPageSize());
-        
+
         //2.执行查询
         List<Clazz> clazzList = clazzMapper.pageList(clazzQueryParam);
-        
+
         //3.解析查询结果，并封装
         Page<Clazz> p = (Page<Clazz>) clazzList;
 
         //4.封装结果
-        return new PageResult<Clazz>(p.getTotal(), p.getResult());
+        return new PageResult<>(p.getTotal(), p.getResult());
     }
+
     // =================== 添加班级 =========================
     @Override
     public void addClazz(Clazz clazz) {
@@ -121,5 +119,10 @@ public class ClazzServiceImpl implements ClazzService {
         }
         //2.如果没有学生 就执行 删除操作
         clazzMapper.deleteByClazzId(id);
+    }
+
+    @Override
+    public List<Clazz> getClazzList() {
+        return clazzMapper.getClazzList();
     }
 }

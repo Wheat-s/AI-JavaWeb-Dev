@@ -25,8 +25,6 @@ public interface ClazzMapper {
 
     /**
      * 查询所有的班级和对应的班主任姓名
-     *
-     * @return
      */
     // @Select("select c.*, e.name as masterName from clazz c left join emp e on c.master_id = e.id")
     //public List<Clazz> list();
@@ -56,4 +54,8 @@ public interface ClazzMapper {
     //删除班级
     @Delete("delete from clazz where id = #{id}")
     void deleteByClazzId(@Param("id") Integer id);
+
+    // =================== 查询所有班级 =====================
+    @Select("select clazz.* from clazz left join emp on clazz.master_id = emp.id")
+    List<Clazz> getClazzList();
 }

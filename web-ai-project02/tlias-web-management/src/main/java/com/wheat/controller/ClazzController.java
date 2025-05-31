@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/clazzs")
@@ -32,7 +34,6 @@ public class ClazzController {
      * 请求方式 GET
      * 请求参数 name(可选),begin(可选),end(可选), page(必须), pageSize(必须)
      * 请求数据样例：/clazzs?name=java&begin=2023-01-01&end=2023-06-30&page=1&pageSize=5
-     *
      * 返回 总记录数(total), 当前页列表数据(rows)
      * 返回的列表数据示例:
      * {
@@ -101,7 +102,6 @@ public class ClazzController {
     public Result page(ClazzQueryParam clazzQueryParam) {
         log.info("班级查询: clazzQueryParam={}", clazzQueryParam);
         clazzQueryParam.validate(); // 验证参数
-        log.info("班级查询: page={}, pageSize={}, name={}, begin={}, end={}", clazzQueryParam.getPage(), clazzQueryParam.getPageSize(), clazzQueryParam.getName(), clazzQueryParam.getBegin(), clazzQueryParam.getEnd());
         PageResult<Clazz> pageResult = clazzService.page(clazzQueryParam);
         return Result.success(pageResult);
     }
@@ -236,6 +236,14 @@ public class ClazzController {
         log.info("删除班级: {}", id);
         clazzService.deleteByClazzId(id);
         return Result.success();
+    }
+
+    // =================== 查询所有班级 =====================
+    @GetMapping("/list")
+    public Result getClazzList() {
+         log.info("查询所有班级");
+         List<Clazz> clazzList = clazzService.getClazzList();
+         return Result.success(clazzList);
     }
     
 }
