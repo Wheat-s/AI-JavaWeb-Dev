@@ -25,12 +25,9 @@ public interface ClazzService {
     // =================== 使用封装好的ClazzQueryParam对象 实现 分页方法 =====================
     PageResult<Clazz> page(ClazzQueryParam clazzQueryParam);
 
-<<<<<<< HEAD
     /**
      * 添加班级
      */
-    void addClazz(Clazz clazz);
-=======
     // =================== 添加班级 ======================
     void addClazz(Clazz clazz);
     
@@ -42,5 +39,4 @@ public interface ClazzService {
     
     // =================== 删除班级信息接口 =====================
     void deleteByClazzId(Integer id) throws BusinessException;
->>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
 }

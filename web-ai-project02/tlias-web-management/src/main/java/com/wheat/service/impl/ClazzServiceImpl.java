@@ -87,11 +87,7 @@ public class ClazzServiceImpl implements ClazzService {
         //4.封装结果
         return new PageResult<Clazz>(p.getTotal(), p.getResult());
     }
-
-<<<<<<< HEAD
-=======
     // =================== 添加班级 =========================
->>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
     @Override
     public void addClazz(Clazz clazz) {
         //1.设置默认值
@@ -99,8 +95,6 @@ public class ClazzServiceImpl implements ClazzService {
         clazz.setUpdateTime(LocalDateTime.now());
         clazzMapper.addClazz(clazz);
     }
-<<<<<<< HEAD
-=======
 
     // =================== 根据ID查询班级 ======================
     @Override
@@ -128,5 +122,4 @@ public class ClazzServiceImpl implements ClazzService {
         //2.如果没有学生 就执行 删除操作
         clazzMapper.deleteByClazzId(id);
     }
->>>>>>> 42c9923 (完成了根据ID查询班级/修改班级/删除班级/的接口.今天的学习任务就到这里了.----在提交时,发现还有一个判断班级内是否有学生这个功能没有时间,经过ai 搞定了.)
 }
