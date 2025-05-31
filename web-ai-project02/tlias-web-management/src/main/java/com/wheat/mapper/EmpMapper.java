@@ -3,9 +3,7 @@ package com.wheat.mapper;
 import com.wheat.pojo.Emp;
 import com.wheat.pojo.EmpQueryParam;
 import org.apache.ibatis.annotations.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -80,4 +78,10 @@ public interface EmpMapper {
      */
     @Select("select e.*, d.name deptName from emp e left join dept d  on e.dept_id = d.id where e.job = 1")
     List<Emp> getList();
+
+    /**
+     * 根据用户名和密码查询员工信息
+     */
+    @Select("select id, username, name from emp where username = #{username} and password = #{password}")
+    Emp getByUsernameAndPassword(Emp emp);
 }

@@ -2,6 +2,7 @@ package com.wheat.service;
 
 import com.wheat.pojo.Emp;
 import com.wheat.pojo.EmpQueryParam;
+import com.wheat.pojo.LoginInfo;
 import com.wheat.pojo.PageResult;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public interface EmpService {
     void update(Emp emp);
 
     List<Emp> getList();
+
+    /**
+     * 员工登录
+     */
+    LoginInfo login(Emp emp);
 
 
     /**
