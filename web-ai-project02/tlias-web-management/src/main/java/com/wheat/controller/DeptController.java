@@ -1,5 +1,6 @@
 package com.wheat.controller;
 
+import com.wheat.anno.Log;
 import com.wheat.pojo.Dept;
 import com.wheat.pojo.Result;
 import com.wheat.service.DeptService;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/depts")
 @RestController
 public class DeptController {
-    
+
     // 日志
     //private static final Logger log = LoggerFactory.getLogger(DeptController.class); // 固定的
 
@@ -59,6 +60,7 @@ public class DeptController {
      * 方式三: 如果请求参数名与形參变量名相同,直接定义方法形參即可接收. (省略 @RequestParam)
      * 前端传递的请求参数名与服务端方法形参名一致
      */
+    @Log
     @DeleteMapping
     public Result delete(Integer id) {
         log.info("根据ID删除部门: {}", id);
@@ -70,9 +72,10 @@ public class DeptController {
     /**
      * 新增部门
      */
+    @Log
     @PostMapping
     public Result add(@RequestBody Dept dept) {
-        log.info("添加部门: {}",  dept);
+        log.info("添加部门: {}", dept);
         // System.out.println("添加部门: " + dept);
         deptService.add(dept);
         return Result.success();
@@ -104,6 +107,7 @@ public class DeptController {
      * 根据ID修改部门
      */
     @PutMapping
+    @Log
     public Result update(@RequestBody Dept dept) {
         log.info("修改部门: {}", dept);
         // System.out.println("修改部门: " + dept);
