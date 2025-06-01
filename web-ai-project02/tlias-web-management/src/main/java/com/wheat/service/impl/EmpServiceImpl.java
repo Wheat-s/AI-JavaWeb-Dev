@@ -7,6 +7,7 @@ import com.wheat.mapper.EmpMapper;
 import com.wheat.pojo.*;
 import com.wheat.service.EmpLogService;
 import com.wheat.service.EmpService;
+import com.wheat.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,10 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Slf4j
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -29,8 +33,6 @@ public class EmpServiceImpl implements EmpService {
 
     /**
      * 原始分页查询
-     *
-     * @return
      */
     /*@Override
     public PageResult<Emp> page(Integer page, Integer pageSize) {
@@ -174,11 +176,16 @@ public class EmpServiceImpl implements EmpService {
     public LoginInfo login(Emp emp) {
         //1.调用mapper借口,根据用户名和密码查询员工信息
         Emp e = empMapper.getByUsernameAndPassword(emp);
-        
+
         //2.判断:判断是否存在这个员工,如果存在,组装登录成功信息
         if (e != null) {
             log.info("员工登录成功, 员工信息: {}", e);
-            return new LoginInfo(e.getId(), e.getUsername(), e.getPassword(), "");
+            // 生成JWT领跑
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("id", e.getId());
+            claims.put("username", e.getUsername());
+            String jwt = JwtUtils.generateToken(claims);
+            return new LoginInfo(e.getId(), e.getUsername(), e.getName(), jwt);
         }
         //3.不存在,返回null
         return null;

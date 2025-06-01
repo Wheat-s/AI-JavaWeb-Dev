@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class LoginInfo {
     private Integer id; // 员工ID
     private String username; // 用户名
-    private String password; // 密码
+    private String name; // 名称
     private String token;    // 登录令牌
 }
