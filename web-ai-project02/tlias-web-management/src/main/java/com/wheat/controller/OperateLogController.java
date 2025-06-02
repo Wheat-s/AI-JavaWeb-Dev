@@ -25,7 +25,8 @@ public class OperateLogController {
      */
     @GetMapping("/page")
     public Result logPage(OperateLogQueryParam logQueryParam) {
-        log.info("日志信息分页查询: {}", logQueryParam);
+        log.info("日志信息分页查询: {}", logQueryParam); // 日志打印
+        // 
         PageResult<OperateLog> pageResult = operateLogService.page(logQueryParam);
         return Result.success(pageResult);
     }

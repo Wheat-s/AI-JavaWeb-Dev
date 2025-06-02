@@ -18,6 +18,9 @@ public class OperateLogServiceImpl implements OperateLogService {
     @Autowired
     private OperateLogMapper operateLogMapper;
 
+    /**
+     * 日志分页查询
+     */
     @Override
     public PageResult<OperateLog> page(OperateLogQueryParam logQueryParam) {
         //1. 设置PageHelper分页参数

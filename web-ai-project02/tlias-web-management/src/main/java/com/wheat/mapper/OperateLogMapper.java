@@ -15,5 +15,6 @@ public interface OperateLogMapper {
             "values (#{operateEmpId}, #{operateTime}, #{className}, #{methodName}, #{methodParams}, #{returnValue}, #{costTime});")
     public void insert(OperateLog log);
 
+    //查询日志数据
     List<OperateLog> pageList(OperateLogQueryParam logQueryParam);
 }
