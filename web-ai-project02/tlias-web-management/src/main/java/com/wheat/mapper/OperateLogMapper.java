@@ -1,8 +1,11 @@
 package com.wheat.mapper;
 
 import com.wheat.pojo.OperateLog;
+import com.wheat.pojo.OperateLogQueryParam;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface OperateLogMapper {
@@ -12,4 +15,5 @@ public interface OperateLogMapper {
             "values (#{operateEmpId}, #{operateTime}, #{className}, #{methodName}, #{methodParams}, #{returnValue}, #{costTime});")
     public void insert(OperateLog log);
 
+    List<OperateLog> pageList(OperateLogQueryParam logQueryParam);
 }
