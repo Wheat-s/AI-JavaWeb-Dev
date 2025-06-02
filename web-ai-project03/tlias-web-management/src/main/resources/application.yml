@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: tlias-web-management
+  # 数据库连接信息
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 12341234
+  servlet:
+    multipart:
+      # 最大单个文件大小
+      max-file-size: 10MB
+      # 最大请求大小(包括所有文件和表单数据)
+      max-request-size: 100MB
+
+# mybatis配置信息
+mybatis:
+  configuration:
+    # 日志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+#配置事务管理日志级别
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug
+
+#阿里云OSS
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: maize
+    region: cn-beijing
+
+#分页插件 合理化参数配置，来解决页码为负数时，自动转为1的问题
+#reasonable：分页合理化参数，默认值为false。
+#当该参数设置为true时，pageNum<=0时会查询第一页，
+#当pageNum>pages（超过总数时），会查询最后一页。
+#默认false 时，直接根据参数进行查询。 
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

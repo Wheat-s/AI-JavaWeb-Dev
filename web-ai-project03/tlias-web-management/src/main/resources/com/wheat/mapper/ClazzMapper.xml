@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wheat.mapper.ClazzMapper">
+    <!-- =================== 原始方式 分页方法 =====================  -->
+    <!-- <select id="getClazzList" resultType="com.wheat.pojo.Clazz">
+        <![CDATA[
+        SELECT c.*,
+               e.name   AS masterName,
+               (CASE
+                    WHEN NOW() > c.end_date THEN '已结课'
+                    WHEN NOW() < c.begin_date THEN '未开班'
+                    ELSE '在读中'
+                   END) AS status
+        FROM clazz c
+                 LEFT JOIN
+             emp e ON c.master_id = e.id
+        order by c.update_time desc
+        limit #{page},#{pageSize}
+        ]]>
+    </select> -->
+    
+    
+    <!-- =================== PageHelper方式 分页方法 =====================  -->
+    <!-- <select id="list" resultType="com.wheat.pojo.Clazz">
+        <![CDATA[
+        SELECT c.*,
+               e.name   AS masterName,
+               (CASE
+                    WHEN NOW() > c.end_date THEN '已结课'
+                    WHEN NOW() < c.begin_date THEN '未开班'
+                    ELSE '在读中'
+                   END) AS status
+        FROM clazz c
+                 LEFT JOIN
+             emp e ON c.master_id = e.id
+        order by c.update_time desc
+        ]]>
+    </select> -->
+    
+    <!-- =================== 条件分页查询 分页方法 ===================== -->
+    <select id="pageList" resultType="com.wheat.pojo.Clazz">
+        <![CDATA[
+        SELECT
+            c.*,
+            e.name AS masterName,
+            (CASE
+                 WHEN NOW() > c.end_date THEN '已结课'
+                 WHEN NOW() < c.begin_date THEN '未开班'
+                 ELSE '在读中'
+                END) AS status
+        FROM
+            clazz c
+                LEFT JOIN
+            emp e ON c.master_id = e.id
+        ]]>
+        <where>
+            <if test="name != null and name != ''">
+                AND c.name LIKE concat('%', #{name}, '%')
+            </if>
+            <if test="begin != null and end != null">
+                AND c.begin_date between #{begin} and #{end}
+            </if>
+        </where>
+        order by c.update_time desc
+    </select>
+    
+    
+    <!-- =================== 新增班级 ===================== -->
+    <insert id="addClazz">
+        INSERT INTO clazz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            name,
+            room,
+            begin_date,
+            end_date,
+            <if test="masterId != null">
+                master_id,
+            </if>
+            subject,
+            create_time,
+            update_time
+        </trim>
+        
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name},
+            #{room},
+            #{beginDate},
+            #{endDate},
+            <if test="masterId != null">
+                #{masterId},
+            </if>
+            #{subject},
+            #{createTime},
+            #{updateTime},
+        </trim>
+    </insert>
+    
+    <select id="getInfo" resultType="com.wheat.pojo.Clazz">
+        select c.id,
+               c.name,
+               c.room,
+               c.begin_date,
+               c.end_date,  
+               c.master_id,
+               c.subject,
+               c.create_time,
+               c.update_time
+        from clazz c
+                 left join emp e on c.master_id = e.id
+        where c.id = #{id}
+    </select>
+    
+    <update id="updateById">
+        update clazz
+        <set>
+            <if test="name != null and name !=''">name = #{name},</if>
+            <if test="room != null and room !=''">room = #{room},</if>
+            <if test="beginDate != null">begin_date = #{beginDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="masterId != null">master_id = #{masterId},</if>
+            <if test="subject != null">subject = #{subject},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    
+    <select id="getStudentCountData" resultType="java.util.Map">
+         select c.name  as name,
+               count(*) as num
+        from clazz c
+                 left join student s on c.id = s.clazz_id
+        group by c.name
+    </select>
+</mapper>
