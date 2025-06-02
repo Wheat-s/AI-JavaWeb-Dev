@@ -1,6 +1,8 @@
 package com.wheat.filter;
 
+import com.wheat.utils.CurrentHolder;
 import com.wheat.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +45,10 @@ public class TokenFilter implements Filter {
 
         //5.解析token, 如果解析失败, 响应401
         try {
-            JwtUtils.parseToken(token);
+            Claims claims = JwtUtils.parseToken(token);
+            Integer empId = Integer.valueOf(claims.get("id").toString());
+            CurrentHolder.setCurrentId(empId); // 将当前登录员工ID存入ThreadLocal
+            log.info("当前登录员工ID: {}, 将其存入ThreadLocal", empId);
         } catch (Exception e) {
             log.info("令牌非法, 响应401");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -53,5 +58,8 @@ public class TokenFilter implements Filter {
         //6.放行.
         log.info("令牌合法, 放行...");
         filterChain.doFilter(request, response);
+
+        //7. 移除ThreadLocal中的数据
+        CurrentHolder.remove();
     }
 }

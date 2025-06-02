@@ -2,6 +2,7 @@ package com.wheat.aop;
 
 import com.wheat.mapper.OperateLogMapper;
 import com.wheat.pojo.OperateLog;
+import com.wheat.utils.CurrentHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -77,6 +78,6 @@ public class OperateLogAspect {
         // 实现获取当前登录用户的逻辑
 
         // 示例返回一个固定值，实际开发中需要根据实际需求进行修改
-        return 1;
+        return CurrentHolder.getCurrentId();
     }
 }
