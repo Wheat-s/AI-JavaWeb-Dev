@@ -64,6 +64,10 @@ Thumbs.db
 /src/**/*.test.ts
 *.vue.*.log
 
+# Vue CLI
+.node_modules/.cache/
+.vue-cli-ui/
+
 # NPM/Yarn lock files (if you choose not to commit them)
 # package-lock.json 
 # yarn.lock
