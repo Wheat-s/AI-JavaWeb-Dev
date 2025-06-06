@@ -1,30 +1,78 @@
-# Logs
-logs
-*.log
+# Node.js
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-.DS_Store
-dist
-dist-ssr
-coverage
+# Build directories
+dist/
+dist-ssr/
+build/
+
+# Logs
+logs/
+*.log
+
+# Testing coverage
+coverage/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
 *.local
 
-/cypress/videos/
-/cypress/screenshots/
+# IDEA (JetBrains)
+.idea/
+*.iml
+*.iws
+out/
 
-# Editor directories and files
-.vscode/*
+# Visual Studio Code
+.vscode/
 !.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
 
+# History files
+.history/
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+*.temp
+*.cache
+*.bak
+*.orig
+*.pid
+*.seed
+
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# TS build info files
 *.tsbuildinfo
+
+# Vue specific files
+/src/**/*.test.js
+/src/**/*.test.ts
+*.vue.*.log
+
+# NPM/Yarn lock files (if you choose not to commit them)
+# package-lock.json 
+# yarn.lock
+
+# Generated files
+*.html
+*.css
+*.js
+*.map
+
+# Optional build output
+*.tgz
