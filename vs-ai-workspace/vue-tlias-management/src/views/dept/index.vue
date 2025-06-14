@@ -1,20 +1,26 @@
 <script setup>
-import { ref,onMounted } from 'vue';
-import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import { queryAllApi } from '@/api/dept';
+// import axios from 'axios';
 
 //钩子函数 页面加载完毕后,执行 搜索函数
 onMounted(() => {
   search();
 })
 // 查询
-const search = async () => {
-   const result = await axios.get('https://m1.apifoxmock.com/m1/6374871-6071167-default/depts?apifoxApiId=308186010');
-   if (result.data.code) { // JS 隐式类型转换  0 - false, 其他数字 - true; '' - false, 其他都是 true; null, undefined -- false
-    deptList.value = result.data.data;
-   }
-}
-
 const deptList = ref([]);
+// const search = async () => {
+//    const result = await axios.get('https://m1.apifoxmock.com/m1/6374871-6071167-default/depts?apifoxApiId=308186010');
+//    if (result.data.code) { // JS 隐式类型转换  0 - false, 其他数字 - true; '' - false, 其他都是 true; null, undefined -- false
+//     deptList.value = result.data.data;
+//    }
+// }
+const search = async () => {
+  const result = await queryAllApi();
+  if (result.code) {
+    deptList.value = result.data;
+  }
+}
 </script>
 
 <template>
@@ -29,8 +35,12 @@ const deptList = ref([]);
       <el-table-column prop="updateTime" label="最后操作时间" width="300" align="center" />
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button size="small" type="primary"><el-icon><EditPen /></el-icon>编辑</el-button>
-          <el-button size="small" type="danger"><el-icon><Delete /></el-icon>删除</el-button>
+          <el-button size="small" type="primary"><el-icon>
+              <EditPen />
+            </el-icon>编辑</el-button>
+          <el-button size="small" type="danger"><el-icon>
+              <Delete />
+            </el-icon>删除</el-button>
         </template>
       </el-table-column>
     </el-table>
