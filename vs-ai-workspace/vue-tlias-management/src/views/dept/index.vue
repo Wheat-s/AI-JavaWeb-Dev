@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { queryAllApi, addApi } from '@/api/dept';
+import { queryAllApi, addApi, queryByIdApi } from '@/api/dept';
 import { ElMessage } from 'element-plus'
 // import axios from 'axios';
 
@@ -71,6 +71,20 @@ const rules = ref({
 })
 
 const deptFormRef = ref();
+
+// 编辑
+const eidt = async (id) => {
+  formTitle.value = '修改部门';
+  // 重置校验规则 - 清空提示信息.
+  if (deptFormRef.value) {
+    deptFormRef.value.resetFields();
+  }
+  const result = await queryByIdApi(id);
+  if (result.code) {
+    dialogFormVisible.value = true;
+    dept.value = result.data;
+  }
+}
 </script>
 
 <template>
@@ -87,7 +101,7 @@ const deptFormRef = ref();
       <el-table-column prop="updateTime" label="最后操作时间" width="300" align="center" />
       <el-table-column label="操作">
         <template #default="scope">
-          <el-button size="small" type="primary"><el-icon>
+          <el-button size="small" type="primary" @click="eidt(scope.row.id)"><el-icon>
               <EditPen />
             </el-icon>编辑</el-button>
           <el-button size="small" type="danger"><el-icon>
