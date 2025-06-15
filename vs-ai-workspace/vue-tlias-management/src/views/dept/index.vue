@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { queryAllApi, addApi, queryByIdApi } from '@/api/dept';
-import { ElMessage } from 'element-plus'
+import { queryAllApi, addApi, queryByIdApi, updateApi,deleteByIdApi } from '@/api/dept';
+import { ElMessage, ElMessageBox } from 'element-plus';
 // import axios from 'axios';
 
 //钩子函数 页面加载完毕后,执行 搜索函数
@@ -45,7 +45,13 @@ const save = async () => {
   if (!deptFormRef.value) return;
   deptFormRef.value.validate(async (valid) => { // valid 表示是否校验通过: true - 通过, false - 不通过.
     if (valid) { //通过
-      const result = await addApi(dept.value);
+      let result;
+      if (dept.value.id) { // 如果有值 执行修改操作
+        result = await updateApi(dept.value);
+      } else { // 否则执行新增
+        result = await addApi(dept.value);
+      }
+
       if (result.code) {
         // 提示信息
         ElMessage.success('操作成功');
@@ -85,6 +91,30 @@ const eidt = async (id) => {
     dept.value = result.data;
   }
 }
+
+// 删除
+const delById = async (id) => {
+  // 弹出确认框
+  ElMessageBox.confirm(
+    '您确认删除该部门吗?',
+    '提示',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  ).then(async () => {  // 确认
+      const reslut = await deleteByIdApi(id); // 根据 ID 删除部门, 并接受返回的结果.
+      if (reslut.code) { // 根据返回的结果判断 
+        ElMessage.success('删除成功');
+        search();
+      } else {
+        ElMessage.error(reslut.msg);
+      }
+    }).catch(() => { // 取消
+      ElMessage.info('您已取消删除');
+    })
+}
 </script>
 
 <template>
@@ -104,7 +134,7 @@ const eidt = async (id) => {
           <el-button size="small" type="primary" @click="eidt(scope.row.id)"><el-icon>
               <EditPen />
             </el-icon>编辑</el-button>
-          <el-button size="small" type="danger"><el-icon>
+          <el-button size="small" type="danger" @click="delById(scope.row.id)"><el-icon>
               <Delete />
             </el-icon>删除</el-button>
         </template>
@@ -114,6 +144,7 @@ const eidt = async (id) => {
 
   <!-- Dialog 对话框 -->
   <el-dialog v-model="dialogFormVisible" :title="formTitle" width="500">
+    {{ dept }}
     <el-form :model="dept" :rules="rules" ref="deptFormRef">
       <el-form-item label="部门名称" label-width="80px" prop="name">
         <el-input v-model="dept.name" />
