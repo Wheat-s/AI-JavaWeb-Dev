@@ -1,11 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 // 搜索表单对象
 const searchEmp = ref({
   name: '',
   gender: '',
   date: [],
+  begin: '',
+  end: '',
+})
+
+// 使用 watch() 侦听searchEmp的 date 属性
+watch(() => searchEmp.value.date,(newVal, odlVal) => {
+  if (newVal.length == 2) {
+    searchEmp.value.begin = newVal[0];
+    searchEmp.value.end = newVal[1];
+  } else {
+    searchEmp.value.begin = '';
+    searchEmp.value.begin = '';
+  }
 })
 
 // 搜索
@@ -20,6 +33,8 @@ const clear = () => {
     name: '',
     gender: '',
     date: [],
+    begin: '',
+    end: '',
   };
   search();
 }
@@ -27,7 +42,7 @@ const clear = () => {
 
 <template>
   <h1>员工管理</h1>
-
+  {{ searchEmp }}
   <!-- 搜索栏 -->
   <div class="container">
     <el-form :inline="true" :model="searchEmp" class="demo-form-inline">
