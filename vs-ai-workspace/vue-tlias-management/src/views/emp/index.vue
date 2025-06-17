@@ -56,6 +56,21 @@ const empList = ref([
     "updateTime": "2022-09-02T00:29:04"
   }
 ])
+
+// 分页
+const currentPage = ref(4); // 页码
+const pageSize = ref(100); // 每页展示的记录数
+const background = ref(true); // 页码按钮背景色
+const total = ref(0); // 总记录数
+
+// 每页展示记录数变化
+const handleSizeChange = (val) => {
+  console.log(`每页展示 ${val} 条记录数`)
+}
+// 页码变化是出发
+const handleCurrentChange = (val) => {
+  console.log(`当前页面是: ${val}`)
+}
 </script>
 
 <template>
@@ -126,6 +141,20 @@ const empList = ref([
       </el-table-column>
     </el-table>
   </div>
+
+  <!-- 分页条 -->
+   <div class="container">
+    <el-pagination
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[5,10, 20, 30, 50, 75, 100]"
+      :background="background"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+   </div>
 </template>
 
 <style scoped>
