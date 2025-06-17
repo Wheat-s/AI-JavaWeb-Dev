@@ -11,7 +11,7 @@ const searchEmp = ref({
 })
 
 // 使用 watch() 侦听searchEmp的 date 属性
-watch(() => searchEmp.value.date,(newVal, odlVal) => {
+watch(() => searchEmp.value.date, (newVal, odlVal) => {
   if (newVal.length == 2) {
     searchEmp.value.begin = newVal[0];
     searchEmp.value.end = newVal[1];
@@ -38,11 +38,30 @@ const clear = () => {
   };
   search();
 }
+
+// 员工列表数据
+const empList = ref([
+  {
+    "id": 1,
+    "username": "jinyong",
+    "name": "金庸",
+    "gender": 1,
+    "image": "https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-53B.jpg",
+    "job": 2,
+    "salary": 8000,
+    "entryDate": "2015-01-01",
+    "deptId": 2,
+    "deptName": "教研部",
+    "createTime": "2022-09-01T23:06:30",
+    "updateTime": "2022-09-02T00:29:04"
+  }
+])
 </script>
 
 <template>
   <h1>员工管理</h1>
   {{ searchEmp }}
+
   <!-- 搜索栏 -->
   <div class="container">
     <el-form :inline="true" :model="searchEmp" class="demo-form-inline">
@@ -65,10 +84,52 @@ const clear = () => {
       </el-form-item>
     </el-form>
   </div>
+
+  <!-- 功能按钮 -->
+  <div class="container">
+    <el-button type="primary" @click="">+ 新增员工</el-button>
+    <el-button type="danger" @click="">- 批量删除</el-button>
+  </div>
+
+  <!-- 员工列表 -->
+  <div class="container">
+    <el-table :data="empList" border style="width: 100%">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column prop="name" label="姓名" width="120" align="center" />
+      <el-table-column label="性别" width="120" align="center">
+        <template #default="scope">
+          {{ scope.row.gender == 1 ? '男' : '女' }}
+        </template>
+      </el-table-column>
+      <el-table-column label="头像" width="120" align="center">
+        <template #default="scope">
+          <img :src="scope.row.image" height="40px">
+        </template>
+      </el-table-column>
+      <el-table-column prop="deptName" label="所属部门" width="120" align="center" />
+      <el-table-column prop="job" label="职位" width="120" align="center">
+        <template #default="scope">
+          <span v-if="scope.row.job == 1">班主任</span>
+          <span v-else-if="scope.row.job == 2">讲师</span>
+          <span v-else-if="scope.row.job == 3">学工主管</span>
+          <span v-else-if="scope.row.job == 4">学工主管</span>
+          <span v-else-if="scope.row.job == 5">教研主管</span>
+          <span v-else-if="scope.row.job == 6">咨询师</span>
+          <span v-else>其他</span>
+          </template>
+      </el-table-column>
+      <el-table-column prop="entryDate" label="入职日期" width="180" align="center" />
+      <el-table-column prop="updateTime" label="最后操作时间" width="200" align="center"  />
+      <el-table-column label="操作">
+        <el-button type="primary" @click="">编辑</el-button>
+        <el-button type="danger" @click="">删除</el-button>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <style scoped>
 .container {
-  margin: 15px 0px;
+  margin: 10px 0px;
 }
 </style>
