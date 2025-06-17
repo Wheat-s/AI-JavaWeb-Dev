@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { queryPageApi } from '@/api/emp';
 
 // 搜索表单对象
 const searchEmp = ref({
@@ -22,9 +23,20 @@ watch(() => searchEmp.value.date, (newVal, odlVal) => {
 })
 
 // 搜索
-const search = () => {
-  console.log(searchEmp.value);
+const search = async () => {
+  const result = await queryPageApi(
+    searchEmp.value.name,
+    searchEmp.value.gender,
+    searchEmp.value.begin,
+    searchEmp.value.end,
+    currentPage.value,
+    pageSize.value,
+  );
 
+  if (result.code) {
+    empList.value = result.data.rows;
+    total.value = result.data.total;
+  }
 }
 
 // 清空
@@ -40,37 +52,27 @@ const clear = () => {
 }
 
 // 员工列表数据
-const empList = ref([
-  {
-    "id": 1,
-    "username": "jinyong",
-    "name": "金庸",
-    "gender": 1,
-    "image": "https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-53B.jpg",
-    "job": 2,
-    "salary": 8000,
-    "entryDate": "2015-01-01",
-    "deptId": 2,
-    "deptName": "教研部",
-    "createTime": "2022-09-01T23:06:30",
-    "updateTime": "2022-09-02T00:29:04"
-  }
-])
+const empList = ref([]);
 
 // 分页
-const currentPage = ref(4); // 页码
-const pageSize = ref(100); // 每页展示的记录数
-const background = ref(true); // 页码按钮背景色
+const currentPage = ref(1); // 页码
+const pageSize = ref(10); // 每页展示的记录数
+const background = ref(false); // 页码按钮背景色
 const total = ref(0); // 总记录数
 
 // 每页展示记录数变化
 const handleSizeChange = (val) => {
-  console.log(`每页展示 ${val} 条记录数`)
+  search();
 }
 // 页码变化是出发
 const handleCurrentChange = (val) => {
-  console.log(`当前页面是: ${val}`)
+  search();
 }
+
+// 钩子函数
+onMounted(() => {
+  search();
+})
 </script>
 
 <template>
@@ -131,10 +133,10 @@ const handleCurrentChange = (val) => {
           <span v-else-if="scope.row.job == 5">教研主管</span>
           <span v-else-if="scope.row.job == 6">咨询师</span>
           <span v-else>其他</span>
-          </template>
+        </template>
       </el-table-column>
       <el-table-column prop="entryDate" label="入职日期" width="180" align="center" />
-      <el-table-column prop="updateTime" label="最后操作时间" width="200" align="center"  />
+      <el-table-column prop="updateTime" label="最后操作时间" width="200" align="center" />
       <el-table-column label="操作">
         <el-button type="primary" @click="">编辑</el-button>
         <el-button type="danger" @click="">删除</el-button>
@@ -143,18 +145,13 @@ const handleCurrentChange = (val) => {
   </div>
 
   <!-- 分页条 -->
-   <div class="container">
-    <el-pagination
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
-      :page-sizes="[5,10, 20, 30, 50, 75, 100]"
-      :background="background"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    />
-   </div>
+  <div class="container">
+    {{ currentPage }} : {{ pageSize }}
+    <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize"
+      :page-sizes="[5, 10, 20, 30, 50, 75, 100]" :background="background"
+      layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" />
+  </div>
 </template>
 
 <style scoped>
