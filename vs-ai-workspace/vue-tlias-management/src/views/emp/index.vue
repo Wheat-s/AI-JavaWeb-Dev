@@ -147,6 +147,16 @@ const delExprItem = (index) => {
   employee.value.exprList.splice(index, 1)
 }
 
+//侦听-employeee 员工对象中的工作经历信息
+watch(() => employee.value.exprList, (newVal, odlVal) => {
+  if (employee.value.exprList && employee.value.exprList.length > 0) {
+    employee.value.exprList.forEach((expr) => {
+      expr.begin = expr.exprDate[0];
+      expr.end = expr.exprDate[1];
+    })
+  }
+}, {deep: true}) // 深度侦听
+
 </script>
 
 <template>
