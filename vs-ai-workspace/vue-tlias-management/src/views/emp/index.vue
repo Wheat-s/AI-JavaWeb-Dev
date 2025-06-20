@@ -1,13 +1,13 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { queryPageApi } from '@/api/emp';
+import { queryPageApi, addApi } from '@/api/emp';
 import { queryAllApi as queryAllDeptApi } from '@/api/dept';
 import { ElMessage } from 'element-plus';
 
 
 // 元数据
 //职位列表数据
-const jobs = ref([{ name: '班主任', value: 1 },{ name: '讲师', value: 2 },{ name: '学工主管', value: 3 },{ name: '教研主管', value: 4 },{ name: '咨询师', value: 5 },{ name: '其他', value: 6 }])
+const jobs = ref([{ name: '班主任', value: 1 }, { name: '讲师', value: 2 }, { name: '学工主管', value: 3 }, { name: '教研主管', value: 4 }, { name: '咨询师', value: 5 }, { name: '其他', value: 6 }])
 //性别列表数据
 const genders = ref([{ name: '男', value: 1 }, { name: '女', value: 2 }])
 //部门列表数据
@@ -99,7 +99,18 @@ const queryAllDepts = async () => {
 const addEmp = () => {
   dialogVisible.value = true;
   dialogTitle.value = '新增员工';
-
+  employee.value = {
+    username: '',
+    name: '',
+    gender: '',
+    phone: '',
+    job: '',
+    salary: '',
+    deptId: '',
+    entryDate: '',
+    image: '',
+    exprList: []
+  }
 }
 
 //新增/修改表单
@@ -139,7 +150,7 @@ const beforeAvatarUpload = (rawFile) => {
 
 // 添加工作经历
 const addExprItem = () => {
-  employee.value.exprList.push({company: '', job: '', begin: '', end: '', exprDate:[]});
+  employee.value.exprList.push({ company: '', job: '', begin: '', end: '', exprDate: [] });
 }
 
 //删除工作经历
@@ -155,8 +166,19 @@ watch(() => employee.value.exprList, (newVal, odlVal) => {
       expr.end = expr.exprDate[1];
     })
   }
-}, {deep: true}) // 深度侦听
+}, { deep: true }) // 深度侦听
 
+// 保存
+const save = async () => {
+  const result = await addApi(employee.value);
+  if (result.code) {
+    ElMessage.success('保存成功')
+    dialogVisible.value = false
+    search();
+  } else {
+    ElMessage.error(result.msg)
+  }
+}
 </script>
 
 <template>
@@ -337,8 +359,8 @@ watch(() => employee.value.exprList, (newVal, odlVal) => {
       <el-row :gutter="3" v-for="(expr, index) in employee.exprList">
         <el-col :span="10">
           <el-form-item size="small" label="时间" label-width="80px">
-            <el-date-picker type="daterange" v-model="expr.exprDate" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
-              format="YYYY-MM-DD" value-format="YYYY-MM-DD"></el-date-picker>
+            <el-date-picker type="daterange" v-model="expr.exprDate" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD"></el-date-picker>
           </el-form-item>
         </el-col>
 
@@ -366,7 +388,7 @@ watch(() => employee.value.exprList, (newVal, odlVal) => {
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="">保存</el-button>
+        <el-button type="primary" @click="save">保存</el-button>
       </span>
     </template>
   </el-dialog>
