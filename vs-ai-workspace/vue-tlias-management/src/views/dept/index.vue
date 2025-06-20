@@ -68,7 +68,7 @@ const save = async () => {
   })
 }
 
-// 表单校验
+// 表单校验规则
 const rules = ref({
   name: [
     { required: true, message: '部门名称是必填项', trigger: 'blur' },
