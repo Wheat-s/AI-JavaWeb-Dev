@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { queryPageApi, addApi } from '@/api/emp';
+import { queryPageApi, addApi, queryInfoApi,updateApi } from '@/api/emp';
 import { queryAllApi as queryAllDeptApi } from '@/api/dept';
 import { ElMessage } from 'element-plus';
 
@@ -178,7 +178,14 @@ const save = async () => {
   if (!empFormRef.value) return;
   empFormRef.value.validate(async (valid) => { // valid 表示是否校验通过: true - 通过, false - 不通过.
     if (valid) { //通过
-      const result = await addApi(employee.value);
+      
+      let result;
+      if(employee.value.id) { //修改
+        result = await updateApi(employee.value);
+      } else { // 新增
+        result = await addApi(employee.value);
+      }
+
       if (result.code) {
         ElMessage.success('保存成功')
         dialogVisible.value = false
@@ -221,6 +228,37 @@ const rules = ref({
 
 // 表单校验 - 定义表单引用
 const empFormRef = ref();
+
+// 编辑
+const edit = async (id) => {
+  const result = await queryInfoApi(id);
+
+  if (result.code) {
+    let emp = result.data;
+
+    // ChatGPT 修改后的代码
+    //  对工作经历进行处理  -  补全工作经历中的 exprDate 字段
+    if (Array.isArray(emp.exprList)) {
+      emp.exprList.forEach((expr) => {
+        expr.exprDate = [expr.begin, expr.end];
+      });
+    } else {
+      employee.value.exprList = [];
+    }
+
+    // 视频上的代码
+    /*  let exprList = employee.value.exprList;
+     if (exprList && exprList.length > 0) {
+       exprList.forEach((expr) => {
+         expr.exprDate = [expr.begin, expr.end];
+       }); 
+     } */
+
+    employee.value = emp;
+    dialogTitle.value = '修改员工';
+    dialogVisible.value = true;
+  }
+}
 
 </script>
 
@@ -287,8 +325,14 @@ const empFormRef = ref();
       <el-table-column prop="entryDate" label="入职日期" width="180" align="center" />
       <el-table-column prop="updateTime" label="最后操作时间" width="200" align="center" />
       <el-table-column label="操作">
-        <el-button type="primary" @click="">编辑</el-button>
-        <el-button type="danger" @click="">删除</el-button>
+        <template #default="scope">
+          <el-button type="primary" @click="edit(scope.row.id)"><el-icon>
+              <EditPen />
+            </el-icon>编辑</el-button>
+          <el-button type="danger" @click=""><el-icon>
+              <Delete />
+            </el-icon>删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
