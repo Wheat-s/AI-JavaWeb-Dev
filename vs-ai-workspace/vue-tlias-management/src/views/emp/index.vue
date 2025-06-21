@@ -79,7 +79,7 @@ const total = ref(0); // 总记录数
 const handleSizeChange = (val) => {
   search();
 }
-// 页码变化是出发
+// 页码变化是触发
 const handleCurrentChange = (val) => {
   search();
 }
