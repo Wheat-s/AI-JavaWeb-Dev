@@ -5,6 +5,9 @@ import { queryAllApi as queryAllDeptApi } from '@/api/dept';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 
+//token
+const token = ref('');
+
 // 元数据
 //职位列表数据
 const jobs = ref([{ name: '班主任', value: 1 }, { name: '讲师', value: 2 }, { name: '学工主管', value: 3 }, { name: '教研主管', value: 4 }, { name: '咨询师', value: 5 }, { name: '其他', value: 6 }])
@@ -83,9 +86,18 @@ const handleCurrentChange = (val) => {
 
 // 钩子函数
 onMounted(() => {
-  search();
-  queryAllDepts();
+  search(); // 查询员工列表数据
+  queryAllDepts(); // 查询所有部门列表数据
+  getToken(); // 获取 token
 })
+
+// 获取 token
+const getToken = () => {
+  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
+  if (loginUser && loginUser.token) {
+    token.value = loginUser.token; 
+  }
+}
 
 // 查询所有的部门数据
 const queryAllDepts = async () => {
@@ -480,7 +492,7 @@ const deleteByIds = () => {
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="头像">
-            <el-upload class="avatar-uploader" action="/api/upload" :show-file-list="false"
+            <el-upload class="avatar-uploader" :headers="{'token': token}" action="/api/upload" :show-file-list="false"
               :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
               <img v-if="employee.image" :src="employee.image" class="avatar" />
               <el-icon v-else class="avatar-uploader-icon">
