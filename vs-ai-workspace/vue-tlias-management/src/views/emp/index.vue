@@ -1,8 +1,8 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { queryPageApi, addApi, queryInfoApi,updateApi } from '@/api/emp';
+import { queryPageApi, addApi, queryInfoApi, updateApi, deleteApi } from '@/api/emp';
 import { queryAllApi as queryAllDeptApi } from '@/api/dept';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 
 // 元数据
@@ -178,9 +178,9 @@ const save = async () => {
   if (!empFormRef.value) return;
   empFormRef.value.validate(async (valid) => { // valid 表示是否校验通过: true - 通过, false - 不通过.
     if (valid) { //通过
-      
+
       let result;
-      if(employee.value.id) { //修改
+      if (employee.value.id) { //修改
         result = await updateApi(employee.value);
       } else { // 新增
         result = await addApi(employee.value);
@@ -260,6 +260,65 @@ const edit = async (id) => {
   }
 }
 
+// 删除员工
+const deleteById = async (id) => {
+  // 弹出确认框
+  ElMessageBox.confirm(
+    '您确认删除该员工吗?',
+    '提示',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  ).then(async () => {  // 确认
+    const reslut = await deleteApi(id); // 根据 ID 删除员工, 并接受返回的结果.
+    if (reslut.code) { // 根据返回的结果判断 
+      ElMessage.success('删除成功');
+      search();
+    } else {
+      ElMessage.error(reslut.msg);
+    }
+  }).catch(() => { // 取消
+    ElMessage.info('您已取消删除');
+  })
+}
+
+// 记录勾选员工的 id
+const selectedIds = ref([]);
+
+// 复选框勾选发生变化时触发 -  selection: 当前选中的行数据 (数组)
+const handleSelectionChange = (selection) => {
+  selectedIds.value = selection.map(item => item.id);
+}
+
+// 批量删除
+const deleteByIds = () => {
+  // 弹出确认框
+  ElMessageBox.confirm(
+    '您确认删除该员工吗?',
+    '提示',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  ).then(async () => {  // 确认
+    if (selectedIds.value && selectedIds.value.length > 0) {
+      const reslut = await deleteApi(selectedIds.value); // 根据 ID 删除员工, 并接受返回的结果.
+      if (reslut.code) { // 根据返回的结果判断 
+        ElMessage.success('删除成功');
+        search();
+      } else {
+        ElMessage.error(reslut.msg);
+      }
+    } else {
+      ElMessage.info('您没有选择任何要删除的数据');
+    }
+  }).catch(() => { // 取消
+    ElMessage.info('您已取消删除');
+  })
+}
 </script>
 
 <template>
@@ -292,12 +351,13 @@ const edit = async (id) => {
   <!-- 功能按钮 -->
   <div class="container">
     <el-button type="primary" @click="addEmp">+ 新增员工</el-button>
-    <el-button type="danger" @click="">- 批量删除</el-button>
+    <el-button type="danger" @click="deleteByIds">- 批量删除</el-button>
   </div>
 
-  <!-- 员工列表 -->
+  <!-- 数据表格展示 - 员工列表 -->
   <div class="container">
-    <el-table :data="empList" border style="width: 100%">
+    {{ selectedIds }}
+    <el-table :data="empList" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column prop="name" label="姓名" width="120" align="center" />
       <el-table-column label="性别" width="120" align="center">
@@ -329,7 +389,7 @@ const edit = async (id) => {
           <el-button type="primary" @click="edit(scope.row.id)"><el-icon>
               <EditPen />
             </el-icon>编辑</el-button>
-          <el-button type="danger" @click=""><el-icon>
+          <el-button type="danger" @click="deleteById(scope.row.id)"><el-icon>
               <Delete />
             </el-icon>删除</el-button>
         </template>
