@@ -37,27 +37,39 @@ const search = async () => {
   );
   if (result.code) {
     total.value = result.data.total;
-    clazzList.value = result.data.rows
+    clazzList.value = result.data.rows;
   }
 }
 
-// 清空
+// 清空搜索栏
 const clear = () => {
-  searchClazz.value = { name: '', date: [], begin: '', end: '' }
+  searchClazz.value = { name: '', date: [], begin: '', end: '' };
   search();
 }
 // 添加班级
 const addClazz = () => {
-  dialogFormVisible.value = true
+  dialogFormVisible.value = true;
+  dialogTitle.value = '新增班级';
 }
-// 班级表格数据
+// 添加班级和修改班级的表单
+const clazz = ref({
+  id: '',
+  name: '',
+  room: '',
+  beginDate: '',
+  endDate: '',
+  subject: '',
+  masterId: ''
+})
+
+// 班级表格数据 - 列表展示数据
 const clazzList = ref([])
 
-// 分页器
-const currentPage = ref(1)
-const pageSize = ref(10)
-const background = ref(false)
-const total = ref(0)
+// 分页组件
+const currentPage = ref(1);
+const pageSize = ref(10);
+const background = ref(false);
+const total = ref(0);
 // 每页展示记录数变化
 const handleSizeChange = (val) => {
   search();
@@ -67,19 +79,10 @@ const handleCurrentChange = (val) => {
   search();
 }
 // 添加班级对话框显示
-const dialogFormVisible = ref(false)
-const dialogTitle = ref('新增员工')
+const dialogFormVisible = ref(false);
+const dialogTitle = ref('新增员工');
 
-const form =  ref({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
+
 </script>
 
 <template>
@@ -143,12 +146,27 @@ const form =  ref({
   <!-- 新增班级/修改班级 -->
   <div class="container">
     <el-dialog v-model="dialogFormVisible" :title="dialogTitle" width="500">
-      <el-form :model="form">
-        <el-form-item label="Promotion name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" />
+      <el-form :model="clazz">
+        <el-form-item label="班级姓名">
+          <el-input v-model="clazz.name" placeholder="请输入班级名称, 如: 西安黑马JavaEE就业100期" clearable />
         </el-form-item>
-        <el-form-item label="Zones" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="Please select a zone">
+        <el-form-item label="班级教室">
+          <el-input v-model="clazz.room" placeholder="请填写班级教室" clearable />
+        </el-form-item>
+        <el-form-item label="开课时间">
+          <el-date-picker v-model="clazz.beginDate" type="date" placeholder="请选择开课时间" value-format="YYYY-MM-DD" style="width: 100%;"/>
+        </el-form-item>
+        <el-form-item label="结课时间">
+          <el-date-picker v-model="clazz.endDate" type="date" placeholder="请选择结课时间" value-format="YYYY-MM-DD" style="width: 100%;"/>
+        </el-form-item>
+        <el-form-item label="班主任">
+          <el-select v-model="clazz.masterId" placeholder="请选择">
+            <template #default="scope">
+            </template>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="学科">
+          <el-select v-model="clazz.subject" placeholder="请选择">
             <el-option label="Zone No.1" value="shanghai" />
             <el-option label="Zone No.2" value="beijing" />
           </el-select>
@@ -156,10 +174,8 @@ const form =  ref({
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">
-            Confirm
-          </el-button>
+          <el-button type="primary" @click="">保存</el-button>
+          <el-button type="info" @click="dialogFormVisible = false">取消</el-button>
         </div>
       </template>
     </el-dialog>
